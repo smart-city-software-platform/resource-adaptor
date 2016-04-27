@@ -1,5 +1,5 @@
 class Component < ActiveRecord::Base
-  attr_accessor :localization, :uuid, :description
+  belongs_to :basic_resource
 
   def temperature
     rand = Random.new
