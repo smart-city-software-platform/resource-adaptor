@@ -1,6 +1,8 @@
 class Component < ActiveRecord::Base
   belongs_to :basic_resource
 
+  serialize :capacities
+
   def temperature
     rand = Random.new
     rand.rand(0..40)
