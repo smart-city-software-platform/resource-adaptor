@@ -6,12 +6,3 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first
 
-Component.create!(localization: "Rua Augusta", description: "faz de tudo")
-Component.create!(localization: "USP", description: "faz de tudo")
-Component.create!(localization: "USP", description: "faz de tudo")
-Component.create!(localization: "Rua Augusta", description: "faz de tudo")
-Component.create!(localization: "Rua Augusta", description: "faz de tudo")
-Component.create!(localization: "Rua Augusta", description: "faz de tudo")
-Component.create!(localization: "Rua Augusta", description: "faz de tudo")
-Component.create!(localization: "Rua Augusta", description: "faz de tudo")
-Component.create!(localization: "Rua Augusta", description: "faz de tudo")

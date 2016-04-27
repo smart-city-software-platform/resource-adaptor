@@ -11,14 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160426194427) do
+ActiveRecord::Schema.define(version: 20160427174708) do
+
+  create_table "basic_resources", force: :cascade do |t|
+    t.string   "name"
+    t.string   "model"
+    t.string   "maker"
+    t.integer  "uuid"
+    t.string   "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "components", force: :cascade do |t|
     t.string   "localization"
-    t.integer  "uui"
+    t.text     "capacities"
     t.text     "description"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "basic_resource_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
 end
