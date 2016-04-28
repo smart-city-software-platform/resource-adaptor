@@ -1,3 +1,5 @@
+require 'json'
+
 module Platform
   module ResourceManager
     def self.register_resources
@@ -16,8 +18,7 @@ module Platform
     end
     
     def self.register(json)
-      puts "HTTP POST #{SERVICES_CONFIG['services']['catalog']}/resource/registry/"
-      puts json
+      "HTTP POST #{SERVICES_CONFIG['services']['catalog']}/resource/registry/" + json.to_json
     end
   end
 end
