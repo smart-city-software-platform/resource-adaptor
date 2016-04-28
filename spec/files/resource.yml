@@ -1,0 +1,20 @@
+# Be sure to restart your server when you modify this file
+
+resources:
+  - name: ""
+    model: ""
+    maker: ""
+    components:
+      - description: ""
+        localization: ""
+        capacities:
+          - "temperature"
+          - "luminosity"
+          - "manipulate_led"
+      - description: ""
+        localization: ""
+        capacities:
+          - "temperature"
+          - "luminosity"
+          - "manipulate_led"
+
