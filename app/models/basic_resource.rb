@@ -4,13 +4,13 @@ class BasicResource < ActiveRecord::Base
   after_create :set_url
 
   def meta_data
-    json = {
+    data = {
       url: self.url,
       name: self.name,
       model: self.model,
       maker: self.maker,
-      n_componentes: self.components.count,
-      componentes: []
+      n_components: self.components.count,
+      components: []
     }
 
     self.components.each do |component|
@@ -21,10 +21,10 @@ class BasicResource < ActiveRecord::Base
         capacities: component.capacities
       }
 
-      json[:componentes] << component_data
+      data[:components] << component_data
     end
     
-    json
+    data
   end
 
   def registered?
@@ -33,6 +33,7 @@ class BasicResource < ActiveRecord::Base
 
   # TODO: Criar logs e removes prints
   def create_components(components_data)
+    return unless components_data.class == Array
     components_data[self.components.count..components_data.count].each do |component|
       begin
         self.components << Component.new(component)
