@@ -1,17 +1,15 @@
 class BasicResource < ActiveRecord::Base
   has_many :components
 
-  def register_data
-    return if self.registered?
+  after_create :set_url
 
-    self.create_components(RESOURCE_CONFIG["resource"]["components"])
-    
+  def meta_data
     json = {
-      url: SERVICES_CONFIG["services"]["resource"] + "/" + "#{self.id}",
-      name: RESOURCE_CONFIG["resource"]["name"],
-      model: RESOURCE_CONFIG["resource"]["model"],
-      maker: RESOURCE_CONFIG["resource"]["maker"],
-      n_componentes: RESOURCE_CONFIG["resource"]["components"].count,
+      url: self.url,
+      name: self.name,
+      model: self.model,
+      maker: self.maker,
+      n_componentes: self.components.count,
       componentes: []
     }
 
@@ -26,8 +24,6 @@ class BasicResource < ActiveRecord::Base
       json[:componentes] << component_data
     end
     
-    puts "HTTP POST #{SERVICES_CONFIG['services']['catalog']}/resource/registry/"
-
     json
   end
 
@@ -35,17 +31,20 @@ class BasicResource < ActiveRecord::Base
     !self.uuid.blank?
   end
 
+  # TODO: Criar logs e removes prints
   def create_components(components_data)
-    # TODO: Criar logs e removes prints
-    puts "Create components:"
     components_data[self.components.count..components_data.count].each do |component|
       begin
         self.components << Component.new(component)
-        
-        print "."
       rescue
-        print "F"
       end
     end
+  end
+
+  private
+
+  def set_url
+    self.url =  SERVICES_CONFIG["services"]["resource"] + "/" + "#{self.id}"
+    self.save
   end
 end
