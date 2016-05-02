@@ -6,6 +6,7 @@ class BasicResource < ActiveRecord::Base
   def meta_data
     data = {
       url: self.url,
+      uuid: self.uuid,
       name: self.name,
       model: self.model,
       maker: self.maker,

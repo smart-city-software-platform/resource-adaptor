@@ -12,7 +12,7 @@ class BasicResourcesController < ApplicationController
   # GET /basic_resources/1
   # GET /basic_resources/1.json
   def show
-    render json: @basic_resource
+    render json: @basic_resource.meta_data
   end
 
   # POST /basic_resources

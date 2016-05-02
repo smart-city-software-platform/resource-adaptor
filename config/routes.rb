@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  resources :basic_resources, except: [:new, :edit]
-  resources :components, except: [:new, :edit]
-  resources :basic_resources, except: [:new, :edit]
+  resources :basic_resources, except: [:new, :edit] do
+    resources :components, except: [:new, :edit]
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
