@@ -1,5 +1,8 @@
 require "rails_helper"
 require "spec_helper"
+require "data_helper"
+
+include DataHelper
 
 describe BasicResourcesController do
   subject {response}
@@ -60,21 +63,6 @@ describe BasicResourcesController do
       expect(json["code"]).to eq("NotFound")
       expect(json["message"]).to eq("No such resource")
     end
-  end
-end
-
-def create_resources
-  resource = BasicResource.create!(
-    name: "Arduino",
-    model: "Uno",
-    maker: "XPTO"
-  )
-
-  (1..3).each do |i|
-    resource.components << Component.new(
-      description: "Text #{i}",
-      localization: "Somewhere"
-    )
   end
 end
 
