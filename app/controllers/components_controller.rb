@@ -15,36 +15,8 @@ class ComponentsController < ApplicationController
     render json: @component
   end
 
-  # POST /components
-  # POST /components.json
-  def create
-    @component = Component.new(component_params)
-
-    if @component.save
-      render json: @component, status: :created, location: @component
-    else
-      render json: @component.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /components/1
-  # PATCH/PUT /components/1.json
-  def update
-    @component = Component.find(params[:id])
-
-    if @component.update(component_params)
-      head :no_content
-    else
-      render json: @component.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /components/1
-  # DELETE /components/1.json
-  def destroy
-    @component.destroy
-
-    head :no_content
+  def new
+    render json: {error: 404}
   end
 
   private

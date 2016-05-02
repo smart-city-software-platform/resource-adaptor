@@ -83,10 +83,14 @@ describe BasicResource do
       stub_const("RESOURCE_CONFIG", YAML.load_file(Rails.root.join("spec", "files", "resource.yml")))
     end
 
+    it { is_expected.to have_key(:id) }
+    it { is_expected.to have_key(:uuid) }
     it { is_expected.to have_key(:url) }
     it { is_expected.to have_key(:name) }
     it { is_expected.to have_key(:model) }
     it { is_expected.to have_key(:maker) }
+    it { is_expected.to have_key(:created_at) }
+    it { is_expected.to have_key(:updated_at) }
     it { is_expected.to have_key(:n_components) }
     it { is_expected.to have_key(:components) }
   end

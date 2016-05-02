@@ -5,11 +5,14 @@ class BasicResource < ActiveRecord::Base
 
   def meta_data
     data = {
+      id: self.id,
       url: self.url,
       uuid: self.uuid,
       name: self.name,
       model: self.model,
       maker: self.maker,
+      created_at: self.created_at,
+      updated_at: self.updated_at,
       n_components: self.components.count,
       components: []
     }
