@@ -8,11 +8,7 @@ module ExternalAPI
     def get_temperature
       response = RestClient.get(URL + "weather?lat=#{self.lat}&lon=#{self.lon}&APPID=#{WEATHER_API_KEY}")
       json = JSON.parse(response)
-      original = from_kelvin_to_celsius(json["main"]["temp"])
-    end
-
-    def from_kelvin_to_celsius(temperature)
-      temperature - 273.15
+      json["main"]["temp"]
     end
   end
 end
