@@ -7,6 +7,8 @@ gem 'rails-api'
 
 gem 'spring', :group => :development
 
+gem 'httparty'
+gem 'rest-client'
 
 gem 'sqlite3'
 

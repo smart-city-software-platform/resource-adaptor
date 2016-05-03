@@ -1,21 +1,29 @@
+require 'open_weather_map_helper'
+
 class Component < ActiveRecord::Base
+  include ExternalAPI::OpenWeatherMap
+
   belongs_to :basic_resource
 
   serialize :capacities
 
   def temperature
-    rand = Random.new
-    rand.rand(0..40)
+    begin
+      self.get_temperature
+    rescue
+      nil
+    end
+  end
+
+  def pressure
+  end
+
+  def humidity
   end
 
   def manipulate_led(on = true)
     # code to send signal to led
     # return OK if ok
     # return ERROR if !ok
-  end
-
-  def gps
-    random = Random.new
-    [random.rand, random.rand]
   end
 end
