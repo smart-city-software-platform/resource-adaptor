@@ -21,7 +21,8 @@ class BasicResource < ActiveRecord::Base
       component_data = {
         id: component.id, 
         description: component.description, 
-        localization: component.localization, 
+        lat: component.lat,
+        lon: component.lon,
         capacities: component.capacities
       }
 

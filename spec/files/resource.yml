@@ -1,4 +1,8 @@
 # Be sure to restart your server when you modify this file
+# The components is placed as follows:
+# 1. USP
+# 2. MASP - Av. Paulista
+# 3. Zoológico
 
 resources:
   - name: ""
@@ -6,13 +10,22 @@ resources:
     maker: ""
     components:
       - description: ""
-        localization: ""
+        lat: -23.559319
+        lon: -46.731476
         capacities:
           - "temperature"
           - "luminosity"
           - "manipulate_led"
       - description: ""
-        localization: ""
+        lat: -23.561528
+        lon: -46.656009
+        capacities:
+          - "temperature"
+          - "luminosity"
+          - "manipulate_led"
+      - description: ""
+        lat: -23.650674
+        lon: -46.620484
         capacities:
           - "temperature"
           - "luminosity"

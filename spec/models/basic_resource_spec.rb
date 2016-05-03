@@ -38,9 +38,9 @@ describe BasicResource do
     end
     
     context "when receives correct data" do
-      it "creates 2 components" do
+      it "creates 3 components" do
         resource.create_components(RESOURCE_CONFIG["resources"].first["components"])
-        expect(resource.components.count).to eq(2)
+        expect(resource.components.count).to eq(3)
       end
     end
 

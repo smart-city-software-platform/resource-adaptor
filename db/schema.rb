@@ -24,7 +24,8 @@ ActiveRecord::Schema.define(version: 20160427174708) do
   end
 
   create_table "components", force: :cascade do |t|
-    t.string   "localization"
+    t.float    "lat"
+    t.float    "lon"
     t.text     "capacities"
     t.text     "description"
     t.integer  "basic_resource_id"

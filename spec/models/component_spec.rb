@@ -2,7 +2,7 @@ require "spec_helper"
 require "rails_helper"
 
 describe Component, :type => :model do
-  subject(:component){ described_class.create!(description: "Small text", localization: "Somewhere") }
+  subject(:component){ described_class.create!(description: "Small text", lat: -23, lon: -46) }
   
   context 'with resource' do
     let(:resource) { BasicResource.create! }
@@ -25,8 +25,12 @@ describe Component, :type => :model do
       expect(component.description).to eq("Small text")
     end
 
-    it "has a localization" do
-      expect(component.localization).to eq("Somewhere")
+    it "has a latitude" do
+      expect(component.lat).to eq(-23)
+    end
+
+    it "has a longitude" do
+      expect(component.lon).to eq(-46)
     end
     
     describe "#capacities" do

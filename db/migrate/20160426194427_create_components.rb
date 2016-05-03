@@ -1,7 +1,8 @@
 class CreateComponents < ActiveRecord::Migration
   def change
     create_table :components do |t|
-      t.string :localization
+      t.float :lat
+      t.float :lon
       t.text :capacities
       t.text :description
       t.references :basic_resource

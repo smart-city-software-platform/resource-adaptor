@@ -10,7 +10,8 @@ module DataHelper
       (1..components).each do |i|
         resource.components << Component.new(
           description: "Text #{i}",
-          localization: "Somewhere"
+          lat: (-23 + i/10.0),
+          lon: (-46 + i/10.0)
         )
       end
     end
