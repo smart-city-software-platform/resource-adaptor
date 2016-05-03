@@ -26,11 +26,14 @@ ActiveRecord::Schema.define(version: 20160427174708) do
   create_table "components", force: :cascade do |t|
     t.float    "lat"
     t.float    "lon"
+    t.string   "status",            default: "active",              null: false
+    t.integer  "collect_interval"
+    t.datetime "last_collection",   default: '2016-05-03 11:41:28', null: false
     t.text     "capacities"
     t.text     "description"
     t.integer  "basic_resource_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
   end
 
 end

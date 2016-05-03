@@ -11,7 +11,8 @@ module DataHelper
         resource.components << Component.new(
           description: "Text #{i}",
           lat: (-23 + i/10.0),
-          lon: (-46 + i/10.0)
+          lon: (-46 + i/10.0),
+          collect_interval: 60,
         )
       end
     end

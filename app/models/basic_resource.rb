@@ -18,15 +18,7 @@ class BasicResource < ActiveRecord::Base
     }
 
     self.components.each do |component|
-      component_data = {
-        id: component.id, 
-        description: component.description, 
-        lat: component.lat,
-        lon: component.lon,
-        capacities: component.capacities
-      }
-
-      data[:components] << component_data
+      data[:components] << component.meta_data
     end
     
     data

@@ -26,4 +26,17 @@ class Component < ActiveRecord::Base
     # return OK if ok
     # return ERROR if !ok
   end
+
+  def meta_data
+    {
+      id: self.id,
+      description: self.description,
+      lat: self.lat,
+      lon: self.lon,
+      status: self.status,
+      collect_interval: self.collect_interval,
+      last_collection: self.last_collection,
+      capacities: self.capacities
+    }
+  end
 end

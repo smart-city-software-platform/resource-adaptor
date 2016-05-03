@@ -28,6 +28,7 @@ describe ComponentsController do
           expect(resource.components).to include(component)
           expect(component.lat).to eq(register["lat"])
           expect(component.lon).to eq(register["lon"])
+          expect(component.status).to eq(register["status"])
           expect(component.capacities).to eq(register["capacities"])
           expect(component.description).to eq(register["description"])
         end
@@ -67,6 +68,7 @@ describe ComponentsController do
         expect(json["id"]).to eq(component.id)
         expect(json["lat"]).to eq(component.lat)
         expect(json["lon"]).to eq(component.lon)
+        expect(json["status"]).to eq(component.status)
         expect(json["capacities"]).to eq(component.capacities)
         expect(json["description"]).to eq(component.description)
         expect(Time.zone.parse(json["updated_at"]).to_date).to eq(component.updated_at.to_date)
