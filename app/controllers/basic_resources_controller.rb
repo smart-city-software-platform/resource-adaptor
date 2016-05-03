@@ -2,7 +2,6 @@ class BasicResourcesController < ApplicationController
   before_action :set_basic_resource, only: [:show, :update, :destroy]
 
   # GET /basic_resources
-  # GET /basic_resources.json
   def index
     @basic_resources = BasicResource.all
 
@@ -10,7 +9,6 @@ class BasicResourcesController < ApplicationController
   end
 
   # GET /basic_resources/1
-  # GET /basic_resources/1.json
   def show
     render json: @basic_resource.meta_data
   end

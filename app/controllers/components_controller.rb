@@ -2,16 +2,14 @@ class ComponentsController < ApplicationController
   before_action :set_basic_resource
   before_action :set_component, only: [:show, :update, :destroy]
 
-  # GET /components
-  # GET /components.json
+  # GET /basic_resources/1/components/
   def index
     @components = @basic_resource.components
 
     render json: @components
   end
 
-  # GET /components/1
-  # GET /components/1.json
+  # GET /basic_resources/1/components/1
   def show
     render json: @component
   end
