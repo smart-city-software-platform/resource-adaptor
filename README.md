@@ -1,4 +1,4 @@
-[![Build Status](https://gitlab.com/smart-city-platform/resource-adaptor/badges/master/build.svg)]
+![Build Status](https://gitlab.com/smart-city-platform/resource-adaptor/badges/master/build.svg)
 
 # README
 
