@@ -6,8 +6,8 @@
 * Run on terminal: ```$ rvm install 2.2.0```
 * In the project directory, run: 
   * ```$ bundle install```
-  * ```$ rake db:create```
-  * ```$ rake db:migrate```
+  * ```$ bundle exec rake db:create```
+  * ```$ bundle exec rake db:migrate```
 * Run the tests:
   * ```$ rspec```
 
