@@ -50,6 +50,43 @@ describe ComponentsController do
       end
     end
   end
+
+  describe "#status" do
+    context "when request all components status of a resource" do
+      let(:resource){BasicResource.last}
+      before {get "status", basic_resource_id: resource.id}
+
+      it { is_expected.to be_success }
+      it "retrive status from all components" do
+        expect(json.count).to eq(resource.components.count)
+      end
+
+      it "retrieved components status data properly" do
+        json.each do |register|
+          component = Component.find(register["id"])
+
+          expect(resource.components).to include(component)
+          expect(component.status).to eq(register["status"])
+          expect(Time.zone.parse(register["updated_at"]).to_date).to eq(component.updated_at.to_date)
+        end
+      end
+    end
+
+    context "when request components status of a non existing resource" do
+      before {get "status", basic_resource_id: -1}
+
+      it { is_expected.to have_http_status(404) }
+
+      it "retrive no status data from any component" do
+        expect(json.class).to_not eq(Array)
+      end
+
+      it "shows the properly not found message" do
+        expect(json["code"]).to eq("NotFound")
+        expect(json["message"]).to eq("No such resource")
+      end
+    end
+  end
  
   describe "#show" do
     let(:resource){BasicResource.last}

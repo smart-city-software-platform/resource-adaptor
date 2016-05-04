@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :basic_resources, except: [:new, :edit] do
-    resources :components, except: [:new, :edit]
+    resources :components, except: [:new, :edit] do
+      collection do
+        get 'status'
+      end
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
