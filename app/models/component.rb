@@ -3,28 +3,18 @@ require 'open_weather_map_helper'
 class Component < ActiveRecord::Base
   include ExternalAPI::OpenWeatherMap
 
+  before_save :set_last_collection
   belongs_to :basic_resource
 
   serialize :capacities
+  serialize :last_collection, Hash
 
-  def temperature
-    begin
-      self.get_temperature
-    rescue
-      nil
+  def method_missing(method, *arguments, &block)
+    if self.last_collection.has_key? method.to_s
+      self.last_collection[method.to_s]
+    else
+      super
     end
-  end
-
-  def pressure
-  end
-
-  def humidity
-  end
-
-  def manipulate_led(on = true)
-    # code to send signal to led
-    # return OK if ok
-    # return ERROR if !ok
   end
 
   def meta_data
@@ -38,5 +28,12 @@ class Component < ActiveRecord::Base
       last_collection: self.last_collection,
       capacities: self.capacities
     }
+  end
+
+  def set_last_collection
+    return unless self.capacities.class == Array
+    self.capacities.each do |capacity|
+      self.last_collection[capacity] = nil unless self.last_collection.has_key?(capacity)
+    end
   end
 end

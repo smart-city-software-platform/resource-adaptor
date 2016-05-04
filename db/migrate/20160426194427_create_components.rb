@@ -7,6 +7,7 @@ class CreateComponents < ActiveRecord::Migration
       t.integer :collect_interval
       t.datetime :last_collection, null: false, default: Time.now
       t.text :capacities
+      t.text :last_collection
       t.text :description
       t.references :basic_resource
       t.timestamps null: false

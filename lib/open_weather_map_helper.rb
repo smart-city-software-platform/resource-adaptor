@@ -6,9 +6,13 @@ module ExternalAPI
     URL = "http://api.openweathermap.org/data/2.5/"
 
     def get_temperature
-      response = RestClient.get(URL + "weather?lat=#{self.lat}&lon=#{self.lon}&APPID=#{WEATHER_API_KEY}")
-      json = JSON.parse(response)
-      json["main"]["temp"]
+      begin
+        response = RestClient.get(URL + "weather?lat=#{self.lat}&lon=#{self.lon}&APPID=#{WEATHER_API_KEY}")
+        json = JSON.parse(response)
+        json["main"]["temp"]
+      rescue
+        nil
+      end
     end
   end
 end
