@@ -22,8 +22,4 @@ class BasicResourcesController < ApplicationController
         render error_payload("No such resource", 404)
       end
     end
-
-    def basic_resource_params
-      params[:basic_resource]
-    end
 end
