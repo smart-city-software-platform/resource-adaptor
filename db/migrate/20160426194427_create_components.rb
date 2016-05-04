@@ -3,6 +3,7 @@ class CreateComponents < ActiveRecord::Migration
     create_table :components do |t|
       t.float :lat
       t.float :lon
+      t.string :service_type
       t.string :status, null: false, default: "active"
       t.integer :collect_interval
       t.datetime :last_collection, null: false, default: Time.now

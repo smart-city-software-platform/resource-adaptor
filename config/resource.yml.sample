@@ -5,11 +5,12 @@
 # 2. model: a specific model of the resource
 # 3. maker: company responsible to make the resource
 # 4. components:
-#   1. description: shor description of the component that can be used in future full-text search
-#   2. lat: latitude coordinate
-#   3. lon: longitude coordinate
-#   4. collec_interval: period of time (in seconds) which the component must wait to perform a new collection. This data can be ignored for event based sensors and actuators
-#   5. capacities: set of capacities that each component answer. Notice that, since a component has a capacity "example", it must respond to the method "example"
+#   * description: shor description of the component that can be used in future full-text search
+#   * service_type: name of the module that implements that component's capabilities. This implementation must be placed into lib/component_services.rb file under ComponentServices module
+#   * lat: latitude coordinate
+#   * lon: longitude coordinate
+#   * collec_interval: period of time (in seconds) which the component must wait to perform a new collection. This data can be ignored for event based sensors and actuators
+#   * capacities: set of capacities that each component answer. Notice that, since a component has a capacity "example", it must respond to the method "example"
 #
 #
 # The components is placed as follows:
@@ -23,6 +24,7 @@ resources:
     maker: "XPTO"
     components:
       - description: ""
+        service_type: "OpenWeatherMap"
         lat: -23.559319
         lon: -46.731476
         collect_interval: 60
@@ -32,6 +34,7 @@ resources:
           - "humidity"
           - "manipulate_led"
       - description: ""
+        service_type: "OpenWeatherMap"
         lat: -23.561528
         lon: -46.656009
         collect_interval: 60
@@ -41,6 +44,7 @@ resources:
           - "humidity"
           - "manipulate_led"
       - description: ""
+        service_type: "OpenWeatherMap"
         lat: -23.650674
         lon: -46.620484
         collect_interval: 60

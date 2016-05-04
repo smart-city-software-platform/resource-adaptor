@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20160427174708) do
   create_table "components", force: :cascade do |t|
     t.float    "lat"
     t.float    "lon"
+    t.string   "service_type"
     t.string   "status",            default: "active", null: false
     t.integer  "collect_interval"
     t.text     "last_collection"

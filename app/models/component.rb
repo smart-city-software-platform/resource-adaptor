@@ -1,13 +1,27 @@
-require 'open_weather_map_helper'
+require "component_services"
 
 class Component < ActiveRecord::Base
-  include ExternalAPI::OpenWeatherMap
-
   before_save :set_last_collection
   belongs_to :basic_resource
 
   serialize :capacities
   serialize :last_collection, Hash
+
+  def perform
+    component = self
+    service = "ComponentServices::" + component.service_type
+    component.send(:extend, service.constantize)
+    Thread.abort_on_exception = true
+    Thread.new do
+      loop do
+        component.capacities.each do |cap|
+          component.last_collection[cap.to_s] = component.send("collect_" + cap.to_s)
+        end
+        component.save
+        sleep component.collect_interval
+      end
+    end
+  end
 
   def method_missing(method, *arguments, &block)
     if self.last_collection.has_key? method.to_s
