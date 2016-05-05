@@ -96,15 +96,34 @@ describe Component, :type => :model do
           expect { component.temperature }.not_to raise_error
         end
       end
-    end
-  end
 
-  context 'when implements real capacities' do
-    before do
-      component.capacities = []
-      component.save
+      context "when call a non existing capacity" do
+        it "raises NoMethodError" do
+          expect { component.non_existing_method }.to raise_error(NoMethodError)
+        end
+      end
     end
 
-    # TODO: for each capacities, write the needed tests
+    describe "#perform" do
+      module ComponentServices
+        module Test
+          def collect_something
+            2.0
+          end
+        end
+      end
+
+      before do
+        component.service_type = "Test"
+        component.capacities = ["something"]
+        component.save
+      end
+
+      it "creates a thread to collect data" do
+        thread = component.perform
+        expect(thread.status).to_not be false
+        thread.exit
+      end
+    end
   end
 end
