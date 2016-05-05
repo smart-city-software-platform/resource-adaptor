@@ -2,7 +2,7 @@ require "spec_helper"
 require "rails_helper"
 
 describe Component, :type => :model do
-  subject(:component){ described_class.create!(description: "Small text", lat: -23, lon: -46, capacities: ["temperature", "luminosity", "noise"]) }
+  subject(:component){ described_class.create!(description: "Small text", lat: -23, lon: -46, capabilities: ["temperature", "luminosity", "noise"]) }
   
   context 'with resource' do
     let(:resource) { BasicResource.create! }
@@ -33,21 +33,21 @@ describe Component, :type => :model do
       expect(component.lon).to eq(-46)
     end
     
-    describe "#capacities" do
+    describe "#capabilities" do
       it "be saved as serialized data" do
-        expect(component.capacities.class).to eq(Array)
+        expect(component.capabilities.class).to eq(Array)
       end
 
-      it "answer methods with capacities name" do
-        component.capacities.each do |cap|
+      it "answer methods with capabilities name" do
+        component.capabilities.each do |cap|
           expect { component.send(cap.to_sym) }.not_to raise_error
         end
       end
 
       it "returns the original values" do
-        expect(component.capacities).to include("temperature")
-        expect(component.capacities).to include("luminosity")
-        expect(component.capacities).to include("noise")
+        expect(component.capabilities).to include("temperature")
+        expect(component.capabilities).to include("luminosity")
+        expect(component.capabilities).to include("noise")
       end
     end
 
@@ -57,13 +57,13 @@ describe Component, :type => :model do
       end
 
       it "set last collection data as nil" do
-        component.capacities.each do |cap|
+        component.capabilities.each do |cap|
           expect(component.last_collection).to have_key(cap.to_s)
         end
       end
 
-      it "answer methods with capacities name" do
-        component.capacities.each do |cap|
+      it "answer methods with capabilities name" do
+        component.capabilities.each do |cap|
           expect { component.send(cap.to_sym) }.not_to raise_error
         end
       end
@@ -73,18 +73,18 @@ describe Component, :type => :model do
         component.last_collection["luminosity"] = 32
         component.last_collection["noise"] = 1.3
 
-        component.capacities.each do |cap|
+        component.capabilities.each do |cap|
           expect(component.send(cap)).not_to be_nil
         end
       end
 
-      context "when update capacities" do
+      context "when update capabilities" do
         before do
-          component.capacities << "humidity"
+          component.capabilities << "humidity"
           component.save!
         end
 
-        it "includes new capacities as methods" do
+        it "includes new capabilities as methods" do
           expect { component.humidity }.not_to raise_error
         end
 
@@ -92,12 +92,12 @@ describe Component, :type => :model do
           expect(component.humidity).to be_nil
         end
 
-        it "continues to respond to other capacities" do
+        it "continues to respond to other capabilities" do
           expect { component.temperature }.not_to raise_error
         end
       end
 
-      context "when call a non existing capacity" do
+      context "when call a non existing capability" do
         it "raises NoMethodError" do
           expect { component.non_existing_method }.to raise_error(NoMethodError)
         end
@@ -115,7 +115,7 @@ describe Component, :type => :model do
 
       before do
         component.service_type = "Test"
-        component.capacities = ["something"]
+        component.capabilities = ["something"]
         component.save
       end
 

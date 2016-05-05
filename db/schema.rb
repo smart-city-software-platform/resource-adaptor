@@ -14,23 +14,24 @@
 ActiveRecord::Schema.define(version: 20160427174708) do
 
   create_table "basic_resources", force: :cascade do |t|
+    t.integer  "uuid"
     t.string   "name"
     t.string   "model"
     t.string   "maker"
-    t.integer  "uuid"
     t.string   "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "components", force: :cascade do |t|
+    t.string   "uuid"
     t.float    "lat"
     t.float    "lon"
     t.string   "service_type"
     t.string   "status",            default: "active", null: false
     t.integer  "collect_interval"
     t.text     "last_collection"
-    t.text     "capacities"
+    t.text     "capabilities"
     t.text     "description"
     t.integer  "basic_resource_id"
     t.datetime "created_at",                           null: false

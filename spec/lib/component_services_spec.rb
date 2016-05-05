@@ -6,7 +6,7 @@ describe ComponentServices do
   subject(:component){ Component.create!(description: "Small text", lat: -23, lon: -46) }
   describe ComponentServices::OpenWeatherMap do
     before do
-      component.capacities = ["temperature", "luminosity", "noise"]
+      component.capabilities = ["temperature", "luminosity", "noise"]
       component.service_type = "OpenWeatherMap"
       component.save
       component.extend described_class

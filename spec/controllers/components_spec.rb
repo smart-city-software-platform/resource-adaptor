@@ -29,7 +29,7 @@ describe ComponentsController do
           expect(component.lat).to eq(register["lat"])
           expect(component.lon).to eq(register["lon"])
           expect(component.status).to eq(register["status"])
-          expect(component.capacities).to eq(register["capacities"])
+          expect(component.capabilities).to eq(register["capabilities"])
           expect(component.description).to eq(register["description"])
         end
       end
@@ -106,7 +106,7 @@ describe ComponentsController do
         expect(json["lat"]).to eq(component.lat)
         expect(json["lon"]).to eq(component.lon)
         expect(json["status"]).to eq(component.status)
-        expect(json["capacities"]).to eq(component.capacities)
+        expect(json["capabilities"]).to eq(component.capabilities)
         expect(json["description"]).to eq(component.description)
         expect(Time.zone.parse(json["updated_at"]).to_date).to eq(component.updated_at.to_date)
         expect(Time.zone.parse(json["created_at"]).to_date).to  eq(component.created_at.to_date)
@@ -137,7 +137,7 @@ describe ComponentsController do
       end
 
       it "retrieved component latest collected data" do
-        component.capacities.each do |cap|
+        component.capabilities.each do |cap|
           expect(json["data"][cap]).to eq(component.send(cap))
         end
         expect(Time.zone.parse(json["updated_at"]).to_date).to eq(component.updated_at.to_date)
@@ -145,7 +145,7 @@ describe ComponentsController do
 
       context "when something goes wrong" do
         before do
-          component.capacities << "something"
+          component.capabilities << "something"
           component.save
           class Component
             def something
@@ -178,7 +178,7 @@ describe ComponentsController do
     let(:resource){BasicResource.last}
     let(:component){resource.components.last}
     context "when request data collected from a specific capability of an component" do
-      let(:capability){component.capacities.last}
+      let(:capability){component.capabilities.last}
       before {get "collect_specific", basic_resource_id: resource.id, id: component.id, capability: capability}
 
       it { is_expected.to be_success }

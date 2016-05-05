@@ -35,7 +35,7 @@ class ComponentsController < ApplicationController
   def collect
     begin
       values = {}
-      @component.capacities.each do |cap|
+      @component.capabilities.each do |cap|
         values[cap.to_s] = @component.send(cap.to_s)
       end
       render json: {data: values, updated_at: @component.updated_at}
@@ -64,7 +64,7 @@ class ComponentsController < ApplicationController
 
     def set_capability
       @capability = params[:capability]
-      unless @component.capacities.include?(@capability)
+      unless @component.capabilities.include?(@capability)
         render error_payload("The required component does not respond to such capability", 422)
       end
     end

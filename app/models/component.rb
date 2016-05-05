@@ -4,7 +4,7 @@ class Component < ActiveRecord::Base
   before_save :set_last_collection
   belongs_to :basic_resource
 
-  serialize :capacities
+  serialize :capabilities
   serialize :last_collection, Hash
 
   def perform
@@ -14,7 +14,7 @@ class Component < ActiveRecord::Base
     Thread.abort_on_exception = true
     Thread.new do
       loop do
-        component.capacities.each do |cap|
+        component.capabilities.each do |cap|
           component.last_collection[cap.to_s] = component.send("collect_" + cap.to_s)
         end
         component.save
@@ -40,14 +40,14 @@ class Component < ActiveRecord::Base
       status: self.status,
       collect_interval: self.collect_interval,
       last_collection: self.last_collection,
-      capacities: self.capacities
+      capabilities: self.capabilities
     }
   end
 
   def set_last_collection
-    return unless self.capacities.class == Array
-    self.capacities.each do |capacity|
-      self.last_collection[capacity] = nil unless self.last_collection.has_key?(capacity)
+    return unless self.capabilities.class == Array
+    self.capabilities.each do |capability|
+      self.last_collection[capability] = nil unless self.last_collection.has_key?(capability)
     end
   end
 end

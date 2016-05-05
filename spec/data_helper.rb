@@ -13,7 +13,7 @@ module DataHelper
           lat: (-23 + i/10.0),
           lon: (-46 + i/10.0),
           collect_interval: 60,
-          capacities: ["temperature", "humidity"]
+          capabilities: ["temperature", "humidity"]
         )
       end
     end
