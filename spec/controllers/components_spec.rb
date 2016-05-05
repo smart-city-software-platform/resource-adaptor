@@ -123,4 +123,78 @@ describe ComponentsController do
       end
     end
   end
+
+  describe "#collect" do
+    let(:resource){BasicResource.last}
+    context "when request data collected from a component" do
+      let(:component){resource.components.last}
+
+      before {get "collect", basic_resource_id: resource.id, id: component.id}
+
+      it { is_expected.to be_success }
+      it "retrive only data of specified component" do
+        expect(json.class).to_not eq(Array)
+      end
+
+      it "retrieved component latest collected data" do
+        component.capacities.each do |cap|
+          expect(json["data"][cap]).to eq(component.send(cap))
+        end
+        expect(Time.zone.parse(json["updated_at"]).to_date).to eq(component.updated_at.to_date)
+      end
+
+      context "when something goes wrong" do
+        before do
+          component.capacities << "something"
+          component.save
+          class Component
+            def something
+              raise Error
+            end
+          end
+          get "collect", basic_resource_id: resource.id, id: component.id
+        end
+
+        it { is_expected.to have_http_status(500) }
+        it "returns the properly error message" do
+          expect(json["code"]).to eq("InternalError")
+          expect(json["message"]).to eq("Error while processing the data collection")
+        end
+      end
+    end
+
+    context "when request a non existing component" do
+      before {get "collect", basic_resource_id: resource.id, id: -1}
+
+      it { is_expected.to have_http_status(404) }
+      it "shows the not found message" do
+        expect(json["code"]).to eq("NotFound")
+        expect(json["message"]).to eq("No such component")
+      end
+    end
+  end
+
+  describe "#collect_specific" do
+    let(:resource){BasicResource.last}
+    let(:component){resource.components.last}
+    context "when request data collected from a specific capability of an component" do
+      let(:capability){component.capacities.last}
+      before {get "collect_specific", basic_resource_id: resource.id, id: component.id, capability: capability}
+
+      it { is_expected.to be_success }
+      it "retrive only data from specific capability" do
+        expect(json["data"]).to eq(component.send(capability.to_s))
+      end
+    end
+
+    context "when request a non existing capability" do
+      before {get "collect_specific", basic_resource_id: resource.id, id: component.id, capability: "non_existing"}
+
+      it { is_expected.to have_http_status(422) }
+      it "shows the unprocessable entry message" do
+        expect(json["code"]).to eq("UnprocessableEntry")
+        expect(json["message"]).to eq("The required component does not respond to such capability")
+      end
+    end
+  end
 end

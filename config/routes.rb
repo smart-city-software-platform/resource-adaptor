@@ -4,6 +4,10 @@ Rails.application.routes.draw do
       collection do
         get 'status'
       end
+      member do
+        get 'collect/:capability', to: "components#collect_specific"
+        get 'collect', to: "components#collect"
+      end
     end
   end
 
