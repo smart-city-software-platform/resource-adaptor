@@ -12,6 +12,7 @@ gem 'rest-client'
 
 gem 'sqlite3'
 
+gem 'colorize'
 
 group :development, :test do
   gem 'rspec-rails'
