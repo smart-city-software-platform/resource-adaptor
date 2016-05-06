@@ -5,10 +5,10 @@ system "clear"
 def help
   puts "### Commands ###".yellow.bold
   puts "* status:".bold + " print the status of all collecting components' threads"
-  puts "* start_all:".bold + " start all components collection"
-  puts "* start_component 12:".bold + " start the collection of component with id 12"
-  puts "* stop_all:".bold + " stop all components collection"
-  puts "* stop_component 10:".bold + "stop the collection of component with id 10"
+  puts "* start:".bold + " start all components collection"
+  puts "* start 12:".bold + " start the collection of component with id 12"
+  puts "* stop:".bold + " stop all components collection"
+  puts "* stop 10:".bold + " stop the collection of component with id 10"
 end
 
 manager = ComponentsManager.instance
@@ -33,20 +33,24 @@ loop do
       system "clear"
     when "help"
       help
-    when "start_all"
-      puts "All components alread running".green
-      manager.start_all
-    when "start_component"
-      id = params.first.to_i
-      manager.start_component(id)
-      puts "Requested processed: Component #{Component.find(id).status}".green
-    when "stop_all"
-      manager.stop_all
-      puts "All components stoped".green
-    when "stop_component"
-      puts "="*100, params.first, params.first.to_i
-      manager.stop_component(params.first.to_i)
-      puts "Requested processed: Component #{Component.find(id).status}".green
+    when "start"
+      if params.first
+        id = params.first.to_i
+        manager.start_component(id)
+        puts "Requested processed: Component #{id} #{Component.find(id).status}".green
+      else
+        puts "All components alread running".green
+        manager.start_all
+      end
+    when "stop"
+      if params.first
+        id = params.first.to_i
+        manager.stop_component(id)
+        puts "Requested processed: Component #{id} #{Component.find(id).status}".green
+      else
+        manager.stop_all
+        puts "All components stoped".green
+      end
     when "status"
       puts "STATUS".green
       puts manager.status
