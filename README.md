@@ -20,10 +20,11 @@ You should see all tests passing =)
 
 ### Database
 
-We use a relational database to store some important information about all components encapsulated by a resource
+We use a relational database to store some important information about all components encapsulated by a resource.
 
-By default, our [database config file](config/database.yml) use the adpater for sqlite3 that is good enough for smal amount of transactions (or small number of simulated components). However, you can also configure a resource-adaptor to use more powerful alternatives, such as [PostgreSQL](https://www.digitalocean.com/community/tutorials/how-to-setup-ruby-on-rails-with-postgres) and
-MySQL(https://www.digitalocean.com/community/tutorials/how-to-use-mysql-with-your-ruby-on-rails-application-on-ubuntu-14-04).
+By default, our [database config file](config/database.yml) use the adpater for sqlite3 that is good enough for smal amount of transactions (or small number of simulated components). 
+However, you can also configure a resource-adaptor to use more powerful alternatives, such as [PostgreSQL](https://www.digitalocean.com/community/tutorials/how-to-setup-ruby-on-rails-with-postgres) and
+[MySQL](https://www.digitalocean.com/community/tutorials/how-to-use-mysql-with-your-ruby-on-rails-application-on-ubuntu-14-04).
 
 ### Services links
 
@@ -33,7 +34,7 @@ Basicly, this app needs to know two external services:
 
 The app also needs to know what its URL in order to properly register in the Smart City Platform.
 
-To set the three required URL, edit the [services config file](config/services.yml)
+To set the three required URL, edit the [services config file](config/services.yml).
 
 ### Resource and Components
 
