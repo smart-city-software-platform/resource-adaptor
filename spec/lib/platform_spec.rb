@@ -8,14 +8,14 @@ describe Platform::ResourceManager do
 
     @previous_number_of_resources = BasicResource.count
     @previous_number_of_component = Component.count
-    described_class.register_resources
+    described_class.create_all
   end
 
   context "when there aren't new resources data" do
     before do 
       @previous_number_of_resources = BasicResource.count
       @previous_number_of_component = Component.count
-      described_class.register_resources
+      described_class.create_all
     end
 
     it "does't create new resources" do

@@ -39,6 +39,10 @@ To set the three required URL, edit the [services config file](config/services.y
 
 ### Resource and Components
 
-In order to automatically populate the database with resource and components data we recommend that you use the [resource config file](config/resource.yml). See the [file](config/resource.yml) to undestand how to add data.
+In order to automatically populate the database with resource and components data we recommend that you use the [resource config file](config/resource.yml). See the [file](config/resource.yml) to undestand how to add data. After this, run the task to create components in database:
+
+```$ bundle exec rake component:create```
+
 
 You can also use alternative ways to populate the database with your informantion. You could add new fields or table by adding new migrations or create your own scripts to populate the database, for instance.
+

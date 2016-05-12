@@ -2,7 +2,7 @@ require 'json'
 
 module Platform
   module ResourceManager
-    def self.register_resources
+    def self.create_all
       return if BasicResource.count == RESOURCE_CONFIG["resources"].count
 
       #TODO: Logger
@@ -13,12 +13,14 @@ module Platform
         resource.maker = resource_data["maker"]
         resource.save!
         resource.create_components(resource_data["components"])
-        Platform::ResourceManager.register(resource.meta_data)
       end
     end
     
-    def self.register(json)
-      "HTTP POST #{SERVICES_CONFIG['services']['catalog']}/resource/registry/" + json.to_json
+    def self.register_all
+      Component.find_each do |component|
+        data = component.meta_data
+      "HTTP POST #{SERVICES_CONFIG['services']['catalog']}/resource/registry/" + data.to_json
+      end
     end
   end
 end
