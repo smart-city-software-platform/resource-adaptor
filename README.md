@@ -7,6 +7,7 @@
 * Install RVM
 * Run on terminal: ```$ rvm install 2.2.0```
 * In the project directory, run:
+  * ```$ gem install rails-api```
   * ```$ gem install bundle```
   * ```$ bundle install```
   * ```$ bundle exec rake db:create```
