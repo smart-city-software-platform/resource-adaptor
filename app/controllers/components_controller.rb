@@ -19,7 +19,7 @@ class ComponentsController < ApplicationController
 
   # GET /basic_resources/1/components/1
   def show
-    render json: @component
+    render json: {data: @component}
   end
 
   # GET /basic_resources/1/components/1/collect/temperature

@@ -98,18 +98,18 @@ describe ComponentsController do
       it { is_expected.to be_success }
       it "retrive only data of specified component" do
         expect(json.class).to_not eq(Array)
-        expect(json["id"]).to eq(component.id)
+        expect(json["data"]["id"]).to eq(component.id)
       end
 
       it "retrieved component data" do
-        expect(json["id"]).to eq(component.id)
-        expect(json["lat"]).to eq(component.lat)
-        expect(json["lon"]).to eq(component.lon)
-        expect(json["status"]).to eq(component.status)
-        expect(json["capabilities"]).to eq(component.capabilities)
-        expect(json["description"]).to eq(component.description)
-        expect(Time.zone.parse(json["updated_at"]).to_date).to eq(component.updated_at.to_date)
-        expect(Time.zone.parse(json["created_at"]).to_date).to  eq(component.created_at.to_date)
+        expect(json["data"]["id"]).to eq(component.id)
+        expect(json["data"]["lat"]).to eq(component.lat)
+        expect(json["data"]["lon"]).to eq(component.lon)
+        expect(json["data"]["status"]).to eq(component.status)
+        expect(json["data"]["capabilities"]).to eq(component.capabilities)
+        expect(json["data"]["description"]).to eq(component.description)
+        expect(Time.zone.parse(json["data"]["updated_at"]).to_date).to eq(component.updated_at.to_date)
+        expect(Time.zone.parse(json["data"]["created_at"]).to_date).to  eq(component.created_at.to_date)
       end
     end
 
