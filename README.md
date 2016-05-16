@@ -2,6 +2,8 @@
 
 # README
 
+The detailed documentation can be found in [Smart City Platform's Stoa page](https://social.stoa.usp.br/poo2016/forum-projeto-cidades-inteligentes/resource-adaptor).
+
 ## Environment Setup
 
 * Install RVM
