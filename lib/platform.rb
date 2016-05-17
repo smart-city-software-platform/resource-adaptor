@@ -22,7 +22,6 @@ module Platform
         begin
           data = component.meta_data
           response = RestClient.post SERVICES_CONFIG['services']['catalog'] + "/resources", {data: data}
-          # puts response.to_str
           if response.code == 201
             json = JSON.parse(response)
             component.uuid = json["data"]["uuid"]
