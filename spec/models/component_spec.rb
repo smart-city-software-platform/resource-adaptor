@@ -126,4 +126,20 @@ describe Component, :type => :model do
       end
     end
   end
+
+  context "scopes" do
+    before do
+      @component1 = Component.create
+      @component2 = Component.create(uuid: "1")
+      @component3 = Component.create
+    end
+
+    describe ".unregistered" do
+      subject(:unregistered_components){ Component.unregistered }
+
+      it { should include(@component1) }
+      it { should include(@component3) }
+      it { should_not include(@component2) }
+    end
+  end
 end

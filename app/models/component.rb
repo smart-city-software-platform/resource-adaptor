@@ -7,6 +7,8 @@ class Component < ActiveRecord::Base
   serialize :capabilities
   serialize :last_collection, Hash
 
+  scope :unregistered, -> { where(uuid: nil) }
+
   def perform
     component = self
     service = "ComponentServices::" + component.service_type

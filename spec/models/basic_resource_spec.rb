@@ -5,6 +5,7 @@ describe BasicResource do
   subject(:resource) {described_class.new}
   
   before do
+    stub_const("SERVICES_CONFIG", YAML.load_file(Rails.root.join("spec", "files", "services.yml")))
     resource.name = "A name"
     resource.model = "A model"
     resource.maker = "A maker"
@@ -25,8 +26,6 @@ describe BasicResource do
     end
 
     it "automaticly generates its url" do
-      stub_const("SERVICES_CONFIG", YAML.load_file(Rails.root.join("spec", "files", "services.yml")))
-      
       expect(resource.url).to eq(SERVICES_CONFIG["services"]["resource"] + "/" + resource.id.to_s)
     end
   end

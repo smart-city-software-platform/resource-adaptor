@@ -17,10 +17,25 @@ module Platform
     end
     
     def self.register_all
-      Component.find_each do |component|
-        data = component.meta_data
-      "HTTP POST #{SERVICES_CONFIG['services']['catalog']}/resource/registry/" + data.to_json
+      registered = 0
+      Component.unregistered.each do |component|
+        begin
+          data = component.meta_data
+          response = RestClient.post SERVICES_CONFIG['services']['catalog'] + "/resources", {data: data}
+          # puts response.to_str
+          if response.code == 201
+            json = JSON.parse(response)
+            component.uuid = json["data"]["uuid"]
+            raise Exception, 'No uuid returned'
+            component.save!
+            registered = registered + 1
+          end
+        rescue Exception => e
+          puts "Could not register Component #{component.id} - ERROR #{e}"
+        end
       end
+
+      registered
     end
   end
 end

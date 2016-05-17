@@ -12,12 +12,7 @@ namespace :component do
 
   desc "Register all resources and components in the Platform"
   task :register => :environment do
-    begin
-      Platform::ResourceManager.register_all
-      puts "#{Component.where.not(uuid: nil).count} components registered!"
-    rescue
-      puts "An error has occurred while trying to register in the platform"
-      puts "Please, verify the services configuration file"
-    end
+    registered = Platform::ResourceManager.register_all
+    puts "#{registered} components registered!"
   end
 end
