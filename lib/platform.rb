@@ -25,7 +25,7 @@ module Platform
           if response.code == 201
             json = JSON.parse(response)
             component.uuid = json["data"]["uuid"]
-            raise Exception, 'No uuid returned'
+            raise Exception, 'No uuid returned' if component.uuid.nil?
             component.save!
             registered = registered + 1
           end
