@@ -31,7 +31,7 @@ However, you can also configure a resource-adaptor to use more powerful alternat
 
 ### Services links
 
-Basicly, this app needs to know two external services:
+Basically, this app needs to know two external services:
 * [Resources Catalog](https://gitlab.com/smart-city-platform/resources-catalog)
 * [Data Collector](https://gitlab.com/smart-city-platform/data_collector)
 
