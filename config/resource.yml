@@ -18,6 +18,21 @@
 # 2. MASP - Av. Paulista
 # 3. Zoológico
 
+##
+# YAML aliases
+#
+
+_parking_sensor: &_parking_sensor
+  description: ""
+  service_type: "ParkingSpot"
+  collect_interval: 10
+  capabilities:
+    - "spot_availability"
+
+###
+# Actual resources definition
+#
+
 resources:
   - name: "Arduíno"
     model: "Uno"
@@ -54,3 +69,24 @@ resources:
           - "humidity"
           - "manipulate_led"
 
+  - name: "Parking region 1"
+    model: "Generic presence sensor"
+    maker: "Generic maker"
+    components:
+      - <<: *_parking_sensor
+        lat: -23.54560817579755
+        lon: -46.63851723074913
+      - <<: *_parking_sensor
+        lat: -23.545443429752037
+        lon: -46.63837373256683
+
+  - name: "Parking region 2"
+    model: "Generic presence sensor"
+    maker: "Generic maker"
+    components:
+      - <<: *_parking_sensor
+        lat: -23.544027097024593
+        lon: -46.63990259170532
+      - <<: *_parking_sensor
+        lat: -23.545443429752037
+        lon: -46.63837373256683
