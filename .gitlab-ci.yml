@@ -1,3 +1,18 @@
+# Which Docker image to use
+image: "ruby:2.3.1"
+#
+# # Which Docker services to use
+services:
+  - postgres:latest
+
+# Build variables
+variables:
+  # Configure postgres service (https://hub.docker.com/_/postgres/)
+  # These variables need to be set for Rails too in database.yml.
+  POSTGRES_DB: resource_adaptor_test
+  POSTGRES_USER: resource_adaptor
+  POSTGRES_PASSWORD: resource_adaptor
+
 before_script:
   - ruby -v
   - which ruby
@@ -5,6 +20,7 @@ before_script:
   - bundle check || bundle install
   - bundle exec rake db:create
   - bundle exec rake db:migrate
+
 
 rspec:
   script:

@@ -6,6 +6,9 @@ The detailed documentation can be found in [Smart City Platform's Stoa page](htt
 
 ## Environment Setup
 
+* Install [PostgreSQL](https://www.postgresql.org/download/)
+* Run on terminal: ```$ sudo -u postgres psql```
+* Run on postgresql command line: ```$ create role resource_adaptor with createdb login password 'resource_adaptor';```
 * Install RVM
 * Run on terminal: ```$ rvm install 2.2.0```
 * In the project directory, run:
@@ -25,9 +28,7 @@ You should see all tests passing =)
 
 We use a relational database to store some important information about all components encapsulated by a resource.
 
-By default, our [database config file](config/database.yml) use the adpater for sqlite3 that is good enough for smal amount of transactions (or small number of simulated components). 
-However, you can also configure a resource-adaptor to use more powerful alternatives, such as [PostgreSQL](https://www.digitalocean.com/community/tutorials/how-to-setup-ruby-on-rails-with-postgres) and
-[MySQL](https://www.digitalocean.com/community/tutorials/how-to-use-mysql-with-your-ruby-on-rails-application-on-ubuntu-14-04).
+By default, our [database config file](config/database.yml) use the adpater for postgresql.
 
 ### Services links
 

@@ -11,6 +11,7 @@ gem 'httparty'
 gem 'rest-client'
 
 gem 'sqlite3'
+gem 'pg'
 
 gem 'colorize'
 
