@@ -49,8 +49,16 @@ In order to automatically populate the database with resource and components dat
 ```$ bundle exec rake component:create```
 
 * Create components data through seed files. See the [existing seed files](lib/seeds/) to understand hot to create your own script. After this, run the task to create components in database:
-** To run all seed files: ```$ bundle exec rake component:seed```
-** To run a specific seed file: ```$ bundle exec rake component:seed[my_file_name.rb]```
+    * To run all seed files: ```$ bundle exec rake component:seed```
+    * To run a specific seed file: ```$ bundle exec rake component:seed[my_file_name.rb]```
 
 You can also use alternative ways to populate the database with your informantion. You could add new fields or table by adding new migrations or create your own scripts to populate the database, for instance.
 
+### Data collection
+
+We create a thread to perform data collection by each of existing components in database. 
+To properly start data collection, the following steps must be performed:
+
+* Running rails server: The data collection starts when you make the first a request to Resource Adaptor's API
+* Running rails console: You must start data collection by yourself on console with ```$ ComponentsManager.instance.start_all```
+* **Deprecated** - Use the collect data script manager: Run on project root ```$ rails runner scripts/collect.rb```
