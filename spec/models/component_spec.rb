@@ -2,7 +2,7 @@ require "spec_helper"
 require "rails_helper"
 
 describe Component, :type => :model do
-  subject(:component){ described_class.create!(description: "Small text", lat: -23, lon: -46, capabilities: ["temperature", "luminosity", "noise"]) }
+  subject(:component){ described_class.create!(description: "Small text", lat: -23, lon: -46, collect_interval: 60, capabilities: ["temperature", "luminosity", "noise"]) }
   
   context 'with resource' do
     let(:resource) { BasicResource.create! }
@@ -120,6 +120,7 @@ describe Component, :type => :model do
       end
 
       it "creates a thread to collect data" do
+        component.reload
         thread = component.perform
         expect(thread.status).to_not be false
         thread.exit
@@ -140,6 +141,32 @@ describe Component, :type => :model do
       it { should include(@component1) }
       it { should include(@component3) }
       it { should_not include(@component2) }
+    end
+  end
+
+  context "collected_data" do
+    before do
+      @component1 = Component.create(capabilities: ['a', 'b'])
+      @component2 = Component.create(capabilities: ['c'])
+    end
+
+    describe "#current_data" do
+      it 'maps all capabilities data' do
+        expect(@component1.current_data).to have_key('a')
+        expect(@component1.current_data).to have_key('b')
+        expect(@component2.current_data).to have_key('c')
+      end
+
+      it 'returns current data of components' do
+        expect(@component1.current_data['a']).to be nil
+        expect(@component1.current_data['b']).to be nil
+        expect(@component2.current_data['c']).to be nil
+      end
+
+      it 'returns correct data previously set of a componet' do
+        @component1.last_collection['a'] = 10
+        expect(@component1.current_data['a']).to eq(10)
+      end
     end
   end
 end

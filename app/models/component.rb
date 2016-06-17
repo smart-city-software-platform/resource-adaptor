@@ -1,6 +1,9 @@
 require "component_services"
 
 class Component < ActiveRecord::Base
+  cattr_accessor :collected_data
+  @@collected_data = {}
+
   before_save :set_last_collection
   belongs_to :basic_resource
 
@@ -17,17 +20,21 @@ class Component < ActiveRecord::Base
     Thread.new do
       loop do
         component.capabilities.each do |cap|
-          component.last_collection[cap.to_s] = component.send("collect_" + cap.to_s)
+          component.current_data[cap.to_s] = component.send("collect_" + cap.to_s)
         end
-        component.save
         sleep component.collect_interval
       end
     end
   end
 
+  def current_data
+    Component.collected_data[self.id] = self.last_collection if Component.collected_data[self.id].nil?
+    Component.collected_data[self.id]
+  end
+
   def method_missing(method, *arguments, &block)
-    if self.last_collection.has_key? method.to_s
-      self.last_collection[method.to_s]
+    if self.current_data.has_key? method.to_s
+      self.current_data[method.to_s]
     else
       super
     end
@@ -41,7 +48,7 @@ class Component < ActiveRecord::Base
       lon: self.lon,
       status: self.status,
       collect_interval: self.collect_interval,
-      last_collection: self.last_collection,
+      last_collection: self.current_data,
       capabilities: self.capabilities
     }
   end
