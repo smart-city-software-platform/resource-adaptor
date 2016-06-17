@@ -1,32 +1,10 @@
-# SQLite version 3.x
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
-#
-default: &default
-  adapter: postgresql
-  encoding: unicode
-  pool: 5
-  timeout: 100000
+# This is the database.yml file used by GitLab CI.
 
-development:
-  <<: *default
-  database: resource_adaptor_development
-  username: resource_adaptor
-  password: resource_adaptor
-
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
 test:
-  <<: *default
+  adapter: postgresql
+  host: postgres
   database: resource_adaptor_test
   username: resource_adaptor
   password: resource_adaptor
-
-production:
-  <<: *default
-  database: resource_adaptor_production
-  username: resource_adaptor
-  password: resource_adaptor
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  encoding: unicode
