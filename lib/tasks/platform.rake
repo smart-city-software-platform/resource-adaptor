@@ -15,4 +15,20 @@ namespace :component do
     registered = Platform::ResourceManager.register_all
     puts "#{registered} components registered!"
   end
+
+  desc 'Create components with lib/seeds scripts'
+  task :seed, [:file_name, :needs] => [:environment] do |t, args|
+    resource = BasicResource.first.nil? ? BasicResource.create! : BasicResource.first
+
+    if args[:file_name]
+      system("bundle exec rails runner #{Rails.root.join('lib/seeds', args[:file_name])}")
+    else
+      Dir.glob(Rails.root.join('lib/seeds/*.rb')) do |file|
+        system("bundle exec rails runner #{file}")
+      end
+    end
+
+    Component.update_all(basic_resource_id: resource.id)
+  end
 end
+
