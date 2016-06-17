@@ -46,7 +46,7 @@ In order to automatically populate the database with resource and components dat
 
 * Create components data through [resource config file](config/resource.yml). See the [file](config/resource.yml) to undestand how to add data. After this, run the task to create components in database:
 
-```$ bundle exec rake component:create```
+* ```$ bundle exec rake component:create```
 
 * Create components data through seed files. See the [existing seed files](lib/seeds/) to understand hot to create your own script. After this, run the task to create components in database:
     * To run all seed files: ```$ bundle exec rake component:seed```
