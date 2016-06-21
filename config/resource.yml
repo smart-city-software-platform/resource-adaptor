@@ -29,6 +29,21 @@ _parking_sensor: &_parking_sensor
   capabilities:
     - "spot_availability"
 
+_camera_sensor: &_traffic_camera_sensor
+  description: ""
+  service_type: "TrafficFlow"
+  collect_interval: 2
+  capabilities:
+    - "traffic_speed"
+    - "traffic_density"
+
+_traffic_light_sensor: &_traffic_light_sensor
+  description: ""
+  service_type: "TrafficLight"
+  collect_interval: 2
+  capabilities:
+    - "traffic_light_state"
+
 ###
 # Actual resources definition
 #
@@ -88,5 +103,27 @@ resources:
         lat: -23.544027097024593
         lon: -46.63990259170532
       - <<: *_parking_sensor
+        lat: -23.545443429752037
+        lon: -46.63837373256683
+
+  - name: "Traffic camera"
+    model: "Generic camera sensor"
+    maker: "Generic maker"
+    components:
+      - <<: *_traffic_camera_sensor
+        lat: -23.544027097024593
+        lon: -46.63990259170532
+      - <<: *_traffic_camera_sensor
+        lat: -23.545443429752037
+        lon: -46.63837373256683
+
+  - name: "Traffic light"
+    model: "Generic traffic light sensor"
+    maker: "Generic maker"
+    components:
+      - <<: *_traffic_light_sensor
+        lat: -23.544027097024593
+        lon: -46.63990259170532
+      - <<: *_traffic_light_sensor
         lat: -23.545443429752037
         lon: -46.63837373256683
