@@ -34,7 +34,7 @@ module ComponentServices
         Random.rand(0..500)
     end
     
-    def collect_green_areas
+    def collect_info_green_percentage
         self.last_collection['info_green_percentage']
     end
   end
