@@ -46,6 +46,7 @@ class Component < ActiveRecord::Base
       description: self.description,
       lat: self.lat,
       lon: self.lon,
+      uri: self.uri,
       status: self.status,
       collect_interval: self.collect_interval,
       last_collection: self.current_data,
@@ -58,5 +59,9 @@ class Component < ActiveRecord::Base
     self.capabilities.each do |capability|
       self.last_collection[capability] = nil unless self.last_collection.has_key?(capability)
     end
+  end
+
+  def uri
+   SERVICES_CONFIG['services']['resource'] + "/basic_resources#{self.basic_resource.id}/components/#{self.id}"
   end
 end
