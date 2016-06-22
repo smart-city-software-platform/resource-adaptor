@@ -19,23 +19,23 @@ module ComponentServices
     end
 
     def collect_temperature
-      self.request["main"]["temp"]
+      request["main"]["temp"]
     end
 
     def collect_humidity
-      self.request["main"]["humidity"]
+      request["main"]["humidity"]
     end
-    
+
     def collect_uv
       Random.rand(0..15)
     end
-    
+
     def collect_pollution
-        Random.rand(0..500)
+       Random.rand(0..500)
     end
-    
+
     def collect_info_green_percentage
-        self.last_collection['info_green_percentage']
+       self.last_collection['info_green_percentage']
     end
   end
 end
