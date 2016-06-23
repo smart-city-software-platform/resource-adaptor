@@ -99,13 +99,27 @@ traffic_lights_list = [
     [-23.571397, -46.644356]  #paulista w/ treze de maio (suburb)
 ]
 
+cont = 0
+puts "Importing traffic light data:"
 
 sensors_list.each do |sensor|
-  Component.create!(description:"", service_type:"TrafficFlow", collect_interval:2, 
-    capabilities:["traffic_speed", "traffic_density"], lat:sensor.first, lon:sensor.last)
-end
+  component = Component.new(description:"", service_type:"TrafficFlow", collect_interval:2, 
+    capabilities:["traffic_speed", "traffic_density", "traffic_light_status"], 
+    lat:sensor.first, lon:sensor.last)
+  component.last_collection['traffic_speed'] = 0
+  component.last_collection['traffic_density'] = 0
+  component.last_collection['traffic_light_status'] = true
 
-traffic_lights_list.each do |tl|
-  Component.create!(description:"", service_type:"TrafficLight", collect_interval:2,
-    capabilities:["traffic_light_state"], lat:tl.first, lon:tl.last)
+  if component.save
+    print '.'
+    cont = cont + 1
+  else
+    print 'F'
+  end
 end
+puts "\n#{cont} components created!"
+
+# traffic_lights_list.each do |tl|
+#   Component.create!(description:"", service_type:"TrafficLight", collect_interval:2,
+#     capabilities:["traffic_light_state"], lat:tl.first, lon:tl.last)
+# end
