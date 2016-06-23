@@ -62,6 +62,6 @@ class Component < ActiveRecord::Base
   end
 
   def uri
-   SERVICES_CONFIG['services']['resource'] + "/basic_resources#{self.basic_resource.id}/components/#{self.id}"
+   SERVICES_CONFIG['services']['resource'] + "/basic_resources/#{self.basic_resource.id}/components/#{self.id}"
   end
 end
