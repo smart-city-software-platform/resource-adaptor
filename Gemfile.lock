@@ -63,6 +63,7 @@ GEM
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     pg (0.18.4)
+    puma (3.4.0)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -139,6 +140,7 @@ DEPENDENCIES
   colorize
   httparty
   pg
+  puma
   rails (= 4.2.2)
   rails-api
   rest-client
@@ -146,3 +148,6 @@ DEPENDENCIES
   simplecov
   spring
   sqlite3
+
+BUNDLED WITH
+   1.12.3

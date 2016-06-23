@@ -7,6 +7,8 @@ gem 'rails-api'
 
 gem 'spring', :group => :development
 
+gem 'puma'
+
 gem 'httparty'
 gem 'rest-client'
 
