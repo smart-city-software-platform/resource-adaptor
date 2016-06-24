@@ -14,9 +14,9 @@ describe ComponentServices do
       component.capabilities = ['temperature', 'humidity', 'uv', 'pollution', 'info_green_percentage']
       component.last_collection['info_green_percentage'] = 60
       component.service_type = "SportsMaps"
-      expect(component).to receive(:request) { {"main" => {"temp" => 291.2, "humidity" => 94, "pressure" => 1016} } }
       component.save!
       component.extend described_class
+      allow(component).to receive(:request).and_return({"main" => {"temp" => 291.2, "humidity" => 94, "pressure" => 1016}})
     end
 
     it "informs green percetenge" do
