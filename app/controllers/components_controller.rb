@@ -1,7 +1,7 @@
 class ComponentsController < ApplicationController
   before_action :set_basic_resource
-  before_action :set_component, only: [:show, :collect_specific, :collect]
-  before_action :set_capability, only: [:collect_specific]
+  before_action :set_component, only: [:show, :collect_specific, :collect, :actuate]
+  before_action :set_capability, only: [:collect_specific, :actuate]
 
   # GET /basic_resources/1/components/
   def index
@@ -44,7 +44,33 @@ class ComponentsController < ApplicationController
     end
   end
 
+  # PUT /basic_resources/1/components/1/actuate/traffic_light_status
+  def actuate
+    begin
+      service = "ComponentServices::" + @component.service_type
+      @component.extend(service.constantize)
+      actuate_method = 'actuate_' + @capability.to_s
+      unless @component.respond_to? actuate_method
+        render error_payload("Impossible to actuate over the required capability", 405) and return
+      end
+
+      result = @component.send(actuate_method, actuator_params[:value])
+
+      if result.nil?
+        render error_payload("The required component can not actuate with received parameters", 422) and return
+      end
+
+      render json: {data: {state: result, updated_at: @component.updated_at}}
+    rescue
+      render error_payload("Error while actuating on device", 500)
+    end
+  end
+
   private
+
+    def actuator_params
+      params.require(:data).permit(:value)
+    end
 
     def set_component
       begin
