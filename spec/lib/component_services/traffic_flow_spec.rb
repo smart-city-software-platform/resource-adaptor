@@ -20,6 +20,41 @@ describe ComponentServices do
       component.extend described_class
     end
 
+    describe '#actuate_traffic_light_status' do
+      context 'when receive true/t/green/g/1' do
+        it 'set to green' do
+          params = [true, 'true', 't', 'green', 'g', '1']
+          params.each do |status|
+            expect(component.actuate_traffic_light_status(status)).to be true
+          end
+        end
+      end
+
+      context 'when receive false/f/red/r/0' do
+        it 'set to red' do
+          params = [false, 'false', 'f', 'red', 'r', '0']
+          params.each do |status|
+            expect(component.actuate_traffic_light_status(status)).to be false
+          end
+        end
+      end
+
+      context 'when receive invalid params' do
+        let!(:status){'blue'}
+        it 'keeps red and returns nil' do
+          component.current_data['traffic_light_status'] = false
+          expect(component.actuate_traffic_light_status(status)).to be nil
+          expect(component.current_data['traffic_light_status']).to be false
+        end
+
+        it 'keeps gree and returns nil' do
+          component.current_data['traffic_light_status'] = true
+          expect(component.actuate_traffic_light_status(status)).to be nil
+          expect(component.current_data['traffic_light_status']).to be true
+        end
+      end
+    end
+
     context 'when traffic light is green' do
       before do
         component.current_data['traffic_light_status'] = true

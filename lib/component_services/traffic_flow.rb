@@ -34,5 +34,17 @@ module ComponentServices
     def collect_traffic_light_status
       self.current_data['traffic_light_status']
     end
+
+    # true: green
+    # false: red
+    def actuate_traffic_light_status(status)
+      if status == true || status =~ (/^(true|t|green|g|1)$/i)
+        self.current_data['traffic_light_status'] = true
+      elsif status == false || status =~ (/^(false|f|red|r|0)$/i)
+        self.current_data['traffic_light_status'] = false
+      else
+        nil
+      end
+    end
   end
 end
