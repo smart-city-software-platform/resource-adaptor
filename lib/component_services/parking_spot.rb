@@ -31,7 +31,7 @@ module ComponentServices
         wday < a['from'] || wday > a['to'] ||
 
         # The current time is not covered by the restriction.
-        hnow < a['start_at'] || hnow > a['end_at']
+        hnow < start_at || hnow > end_at
       end
 
       if restrictions.empty?
@@ -44,7 +44,11 @@ module ComponentServices
     ##
     # @return [Hash] The availability schedules for the spot.
     def collect_availability_schedules
-      JSON.load(last_collection['availability_schedules'])
+      if last_collection['availability_schedules'].is_a?(String)
+        JSON.load(last_collection['availability_schedules'])
+      else
+        last_collection['availability_schedules']
+      end
     end
 
     private
