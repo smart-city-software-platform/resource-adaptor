@@ -15,15 +15,27 @@ module ComponentServices
     end
 
     def collect_temperature
-      self.request["main"]["temp"]
+      begin
+        self.request["main"]["temp"]
+      rescue
+        nil
+      end
     end
 
     def collect_pressure
-      self.request["main"]["pressure"]
+      begin
+        self.request["main"]["pressure"]
+      rescue
+        nil
+      end
     end
 
     def collect_humidity
-      self.request["main"]["humidity"]
+      begin
+        self.request["main"]["humidity"]
+      rescue
+        nil
+      end
     end
 
     def collect_manipulate_led
