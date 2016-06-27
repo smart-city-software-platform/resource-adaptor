@@ -40,5 +40,21 @@ describe ComponentServices do
       expect(component.collect_pollution).to be >= 0
       expect(component.collect_pollution).to be <= 500
     end
+
+    context 'when API fails' do
+      before do
+        allow(component).to receive(:request).and_return(nil)
+      end
+
+      it 'returns last temperature' do
+        component.current_data['temperature'] = 3
+        expect(component.collect_temperature).to eq(3)
+      end
+
+      it 'returns last humidity' do
+        component.current_data['humidity'] = 2
+        expect(component.collect_humidity).to eq(2)
+      end
+    end
   end
 end

@@ -19,11 +19,19 @@ module ComponentServices
     end
 
     def collect_temperature
-      request["main"]["temp"]
+      begin
+        request["main"]["temp"]
+      rescue
+        self.current_data['temperature']
+      end
     end
 
     def collect_humidity
-      request["main"]["humidity"]
+      begin
+        request["main"]["humidity"]
+      rescue
+        self.current_data['humidity']
+      end
     end
 
     def collect_uv
