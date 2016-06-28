@@ -14,7 +14,7 @@ class ComponentsController < ApplicationController
   def status
     @components = @basic_resource.components
 
-    render json: @components.map { |component| {id: component.id, status: component.status, updated_at: component.updated_at} }
+    render json: @components.map { |component| {id: component.id, status: component.status, updated_at: Time.now.utc} }
   end
 
   # GET /basic_resources/1/components/1
@@ -25,7 +25,7 @@ class ComponentsController < ApplicationController
   # GET /basic_resources/1/components/1/collect/temperature
   def collect_specific
     begin
-      render json: {data: @component.send(@capability), updated_at: @component.updated_at}
+      render json: {data: @component.send(@capability), updated_at: Time.now.utc}
     rescue
       render error_payload("Error while processing the requested capability", 422)
     end
@@ -38,7 +38,7 @@ class ComponentsController < ApplicationController
       @component.capabilities.each do |cap|
         values[cap.to_s] = @component.send(cap.to_s)
       end
-      render json: {data: values, updated_at: @component.updated_at}
+      render json: {data: values, updated_at: Time.now.utc}
     rescue
       render error_payload("Error while processing the data collection", 500)
     end
@@ -60,7 +60,7 @@ class ComponentsController < ApplicationController
         render error_payload("The required component can not actuate with received parameters", 422) and return
       end
 
-      render json: {data: {state: result, updated_at: @component.updated_at}}
+      render json: {data: {state: result, updated_at: Time.now.utc}}
     rescue
       render error_payload("Error while actuating on device", 500)
     end
