@@ -16,6 +16,17 @@ namespace :component do
     puts "#{registered} components registered!"
   end
 
+  desc "Update all registered resources and components in the Platform"
+  task :update, [:capability_name, :needs] => [:environment] do |t, args|
+    capability = ''
+    if args[:capability_name]
+      capability = args[:capability_name]
+    end
+
+    updated = Platform::ResourceManager.update(capability)
+    puts "#{updated} components updated!"
+  end
+
   desc 'Create components with lib/seeds scripts'
   task :seed, [:file_name, :needs] => [:environment] do |t, args|
     resource = BasicResource.first.nil? ? BasicResource.create! : BasicResource.first

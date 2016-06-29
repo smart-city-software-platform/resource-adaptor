@@ -11,6 +11,7 @@ class Component < ActiveRecord::Base
   serialize :last_collection, Hash
 
   scope :unregistered, -> { where(uuid: nil) }
+  scope :registered, -> { where.not(uuid: nil) }
 
   def perform
     component = self
