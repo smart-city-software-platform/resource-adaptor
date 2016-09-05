@@ -27,7 +27,13 @@ You should see all tests passing =)
 * Install Docker: (google it)
 * Run on terminal: $ docker pull debian:unstable
   $ docker build -t smart-cities/resource-adaptor .
-  $ docker run -d -p 3002:3000 smart-cities/resource-adaptor
+  $ docker run -d -v <path_to_your_source_code>:/resource-adaptor/ -p 3002:3000 smart-cities/resource-adaptor
+
+Docker flags:
+
+* -d : run the container as a daemon
+* -v : mount a volume from your host to container (share your source code with container)
+* -p : map the exposed port to your host (<host_port>:<container_port>)
 
 Now you can access the application on http://localhost:3002
 
