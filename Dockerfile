@@ -7,4 +7,4 @@ RUN bundle install
 RUN RAILS_ENV=development bundle exec rake db:create
 RUN RAILS_ENV=development bundle exec rake db:migrate
 EXPOSE 3000
-CMD [ "RAILS_ENV=development", "bundle","exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+CMD ["bundle","exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
