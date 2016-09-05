@@ -22,6 +22,16 @@ The detailed documentation can be found in [Smart City Platform's Stoa page](htt
 
 You should see all tests passing =)
 
+## Docker Setup
+
+* Install Docker: (google it)
+* Run on terminal: $ docker pull debian:unstable
+  $ docker build -t smart-cities/resource-adaptor .
+  $ docker run -d -p 3002:3000 smart-cities/resource-adaptor
+
+Now you can access the application on http://localhost:3002
+
+
 ## Configuration
 
 ### Database
