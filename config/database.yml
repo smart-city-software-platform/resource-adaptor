@@ -11,7 +11,9 @@ default: &default
   timeout: 100000
 
 development:
-  <<: *default
+  adapter: sqlite3
+  pool: 5
+  timeout: 50000
   database: resource_adaptor_development
   username: resource_adaptor
   password: resource_adaptor
