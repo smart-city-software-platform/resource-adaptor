@@ -25,9 +25,10 @@ You should see all tests passing =)
 ## Docker Setup
 
 * Install Docker: (google it)
-* Run on terminal: $ docker pull debian:unstable
-  $ docker build -t smart-cities/resource-adaptor .
-  $ docker run -d -v <path_to_your_source_code>:/resource-adaptor/ -p 3002:3000 smart-cities/resource-adaptor
+* Run on terminal: 
+  * ```$ docker pull debian:unstable```
+  * ```$ docker build -t smart-cities/resource-adaptor .```
+  * ```$ docker run -d -v <path_to_your_source_code>:/resource-adaptor/ -p 3002:3000 smart-cities/resource-adaptor```
 
 Docker flags:
 
