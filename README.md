@@ -1,8 +1,8 @@
-![Build Status](https://gitlab.com/smart-city-platform/resource-adaptor/badges/master/build.svg)
+![Build Status](https://gitlab.com/smart-city-software-platform/resource-adaptor/badges/master/build.svg)
 
 # README
 
-The detailed documentation can be found in [Smart City Platform's Stoa page](https://social.stoa.usp.br/poo2016/forum-projeto-cidades-inteligentes/resource-adaptor).
+The detailed documentation can be found in [the Wiki of this repository](https://gitlab.com/smart-city-software-platform/resource-adaptor/wikis/home).
 
 ## Environment Setup
 
@@ -50,8 +50,8 @@ By default, our [database config file](config/database.yml) use the adpater for 
 ### Services links
 
 Basically, this app needs to know two external services:
-* [Resources Catalog](https://gitlab.com/smart-city-platform/resources-catalog)
-* [Data Collector](https://gitlab.com/smart-city-platform/data_collector)
+* [Resources Cataloguer](https://gitlab.com/smart-city-software-platform/resource-cataloguer)
+* [Data Collector](https://gitlab.com/smart-city-software-platform/data-collector)
 
 The app also needs to know what its URL in order to properly register in the Smart City Platform.
 
