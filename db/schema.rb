@@ -13,9 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20160427174708) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "basic_resources", force: :cascade do |t|
     t.integer  "uuid"
     t.string   "name"
