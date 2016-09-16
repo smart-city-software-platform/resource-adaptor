@@ -4,7 +4,7 @@ RUN mkdir -p /resource-adaptor/
 ADD . /resource-adaptor/
 WORKDIR /resource-adaptor/
 RUN bundle install
-RUN RAILS_ENV=development bundle exec rake db:create
-RUN RAILS_ENV=development bundle exec rake db:migrate
-EXPOSE 3000
+RUN bundle exec rake db:drop
+RUN bundle exec rake db:create
+RUN bundle exec rake db:migrate
 CMD ["bundle","exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
