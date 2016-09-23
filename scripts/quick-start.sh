@@ -1,5 +1,6 @@
 FILE_DIR=`dirname $0`
 BASE_DIR=`readlink -f $FILE_DIR/../`
+IMAGE_NAME=smart-cities/resource-adaptor
 
 verify () {
   if [ $? != 0 ]; then
@@ -16,7 +17,7 @@ sudo docker pull debian:unstable
 verify "Error: downloading debian:unstable image."
 
 echo "Building docker image."
-sudo docker build -t smart-cities/actuator-controller .
+sudo docker build -t $IMAGE_NAME .
 verify "Error: building docker image."
 
 echo "Creating shared network."

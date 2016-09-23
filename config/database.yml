@@ -12,21 +12,15 @@ default: &default
 
 development:
   <<: *default
-  database: resource_adaptor_development
-  username: resource_adaptor
-  password: resource_adaptor
+  database: db/resource-adaptor-development.sqlite3
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: resource_adaptor_test
-  username: resource_adaptor
-  password: resource_adaptor
+  database: db/resource-adaptor-test.sqlite3
 
 production:
   <<: *default
-  database: resource_adaptor_production
-  username: resource_adaptor
-  password: resource_adaptor
+  database: db/resource-adaptor-production.sqlite3
