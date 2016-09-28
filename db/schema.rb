@@ -11,21 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928123306) do
+ActiveRecord::Schema.define(version: 20160928144729) do
 
   create_table "components", force: :cascade do |t|
     t.string   "uuid"
     t.float    "lat"
     t.float    "lon"
     t.string   "service_type"
-    t.string   "status",            default: "active", null: false
+    t.string   "status",           default: "active", null: false
     t.integer  "collect_interval"
     t.text     "last_collection"
     t.text     "capabilities"
     t.text     "description"
-    t.integer  "basic_resource_id"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
 end
