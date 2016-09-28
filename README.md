@@ -37,7 +37,6 @@ To execute commands into the started container you can run:
 
 ```$ sudo docker exec resource-adaptor <command>```
 
-
 ## Configuration
 
 ### Database
@@ -58,17 +57,18 @@ To set the three required URL, edit the [services config file](config/services.y
 
 ### Resource and Components
 
-In order to automatically populate the database with resource and components data we recommend that you use the one of the following methods:
+In order to automatically populate the database with resource and components 
+data we recommend that you use the following method:
 
-* Create components data through [resource config file](config/resource.yml). See the [file](config/resource.yml) to undestand how to add data. After this, run the task to create components in database:
-
-    * ```$ bundle exec rake component:create```
-
-* Create components data through seed files. See the [existing seed files](lib/seeds/) to understand hot to create your own script. After this, run the task to create components in database:
+* Create components data through seed files. See the
+[existing seed files](lib/seeds/) to understand hot to create your own script.
+After this, run the task to create components in database:
     * To run all seed files: ```$ bundle exec rake component:seed```
     * To run a specific seed file: ```$ bundle exec rake component:seed[my_file_name.rb]```
 
-You can also use alternative ways to populate the database with your informantion. You could add new fields or table by adding new migrations or create your own scripts to populate the database, for instance.
+You can also use alternative ways to populate the database with your
+informantion. You could add new fields or table by adding new migrations 
+or create your own scripts to populate the database, for instance.
 
 ### Data collection
 
