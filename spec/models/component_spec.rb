@@ -4,19 +4,7 @@ require "rails_helper"
 describe Component, :type => :model do
   subject(:component){ described_class.create!(description: "Small text", lat: -23, lon: -46, collect_interval: 60, capabilities: ["temperature", "luminosity", "noise"]) }
   
-  context 'with resource' do
-    let(:resource) { BasicResource.create! }
-
-    before do
-      resource.components << component
-    end
-
-    it "belongs to a resource" do
-      expect(component.basic_resource).to eq(resource)
-    end
-  end
-
-  context 'without resource' do
+  context 'normal components' do
     it "creates a correct component" do
       expect(component).to eq(Component.last)
     end
@@ -68,10 +56,10 @@ describe Component, :type => :model do
         end
       end
 
-      it "returns the collected data from each capacitie" do
-        component.last_collection["temperature"] = 213
-        component.last_collection["luminosity"] = 32
-        component.last_collection["noise"] = 1.3
+      it "returns the collected data from each capability" do
+        component.current_data["temperature"] = 213
+        component.current_data["luminosity"] = 32
+        component.current_data["noise"] = 1.3
 
         component.capabilities.each do |cap|
           expect(component.send(cap)).not_to be_nil
@@ -146,26 +134,45 @@ describe Component, :type => :model do
 
   context "collected_data" do
     before do
-      @component1 = Component.create(capabilities: ['a', 'b'])
-      @component2 = Component.create(capabilities: ['c'])
+      Component.collected_data = {}
+      @component_a = Component.create(capabilities: ['a', 'b'])
+      @component_b = Component.create(capabilities: ['c'])
+    end
+
+    describe "#destroy" do
+      before do
+        @component_a.current_data
+        @component_b.current_data
+      end
+      it 'removes data from destroyed component' do
+        expect(Component.collected_data).to have_key(@component_a.id)
+        @component_a.destroy
+        expect(Component.collected_data).to_not have_key(@component_a.id)
+      end
+
+      it 'keep data from non destroyed component' do
+        expect(Component.collected_data).to have_key(@component_b.id)
+        @component_a.destroy
+        expect(Component.collected_data).to have_key(@component_b.id)
+      end
     end
 
     describe "#current_data" do
       it 'maps all capabilities data' do
-        expect(@component1.current_data).to have_key('a')
-        expect(@component1.current_data).to have_key('b')
-        expect(@component2.current_data).to have_key('c')
+        expect(@component_a.current_data).to have_key('a')
+        expect(@component_a.current_data).to have_key('b')
+        expect(@component_b.current_data).to have_key('c')
       end
 
       it 'returns current data of components' do
-        expect(@component1.current_data['a']).to be nil
-        expect(@component1.current_data['b']).to be nil
-        expect(@component2.current_data['c']).to be nil
+        expect(@component_a.current_data['a']).to be nil
+        expect(@component_a.current_data['b']).to be nil
+        expect(@component_b.current_data['c']).to be nil
       end
 
       it 'returns correct data previously set of a componet' do
-        @component1.last_collection['a'] = 10
-        expect(@component1.current_data['a']).to eq(10)
+        @component_a.last_collection['a'] = 10
+        expect(@component_a.current_data['a']).to eq(10)
       end
     end
   end

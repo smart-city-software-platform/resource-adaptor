@@ -5,7 +5,7 @@ class Component < ActiveRecord::Base
   @@collected_data = {}
 
   before_save :set_last_collection
-  belongs_to :basic_resource
+  after_destroy { |record| Component.collected_data.except!(record.id) }
 
   serialize :capabilities
   serialize :last_collection, Hash
@@ -36,6 +36,8 @@ class Component < ActiveRecord::Base
   def method_missing(method, *arguments, &block)
     if self.current_data.has_key? method.to_s
       self.current_data[method.to_s]
+    elsif self.last_collection.has_key? method.to_s
+      self.last_collection[method.to_s]
     else
       super
     end
@@ -63,6 +65,6 @@ class Component < ActiveRecord::Base
   end
 
   def uri
-   SERVICES_CONFIG['services']['resource'] + "/basic_resources/#{self.basic_resource.id}/components/#{self.id}"
+   SERVICES_CONFIG['services']['resource'] + "/components/#{self.id}"
   end
 end

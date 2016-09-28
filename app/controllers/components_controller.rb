@@ -1,28 +1,27 @@
 class ComponentsController < ApplicationController
-  before_action :set_basic_resource
   before_action :set_component, only: [:show, :collect_specific, :collect, :actuate]
   before_action :set_capability, only: [:collect_specific, :actuate]
 
-  # GET /basic_resources/1/components/
+  # GET /components/
   def index
-    @components = @basic_resource.components
+    @components = Component.all
 
     render json: @components
   end
 
-  # GET /basic_resources/1/components/status
+  # GET /components/status
   def status
-    @components = @basic_resource.components
+    @components = Component.all
 
     render json: @components.map { |component| {id: component.id, status: component.status, updated_at: Time.now.utc} }
   end
 
-  # GET /basic_resources/1/components/1
+  # GET /components/1
   def show
     render json: {data: @component}
   end
 
-  # GET /basic_resources/1/components/1/collect/temperature
+  # GET /components/1/collect/temperature
   def collect_specific
     begin
       render json: {data: @component.send(@capability), updated_at: Time.now.utc}
@@ -31,7 +30,7 @@ class ComponentsController < ApplicationController
     end
   end
 
-  # GET /basic_resources/1/components/1/collect
+  # GET /components/1/collect
   def collect
     begin
       values = {}
@@ -44,7 +43,7 @@ class ComponentsController < ApplicationController
     end
   end
 
-  # PUT /basic_resources/1/components/1/actuate/traffic_light_status
+  # PUT /components/1/actuate/traffic_light_status
   def actuate
     begin
       service = "ComponentServices::" + @component.service_type
@@ -77,14 +76,6 @@ class ComponentsController < ApplicationController
         @component = Component.find(params[:id])
       rescue ActiveRecord::RecordNotFound
         render error_payload("No such component", 404)
-      end
-    end
-
-    def set_basic_resource
-      begin
-        @basic_resource = BasicResource.find(params[:basic_resource_id])
-      rescue ActiveRecord::RecordNotFound
-        render error_payload("No such resource", 404)
       end
     end
 

@@ -12,20 +12,19 @@ describe ComponentsController do
   end
 
   describe "#index" do
-    context "when request all components data of a resource" do
-      let(:resource){BasicResource.last}
-      before {get "index", basic_resource_id: resource.id}
+    context "when request all components data" do
+      before {get "index"}
 
       it { is_expected.to be_success }
       it "retrive data from all components" do
-        expect(json.count).to eq(resource.components.count)
+        expect(json.count).to eq(Component.count)
       end
 
       it "retrieved components data properly" do
         json.each do |register|
           component = Component.find(register["id"])
           
-          expect(resource.components).to include(component)
+          expect(Component.all).to include(component)
           expect(component.lat).to eq(register["lat"])
           expect(component.lon).to eq(register["lon"])
           expect(component.status).to eq(register["status"])
@@ -34,66 +33,34 @@ describe ComponentsController do
         end
       end
     end
-    
-    context "when request components data of a non existing resource" do
-      before {get "index", basic_resource_id: -1}
-
-      it { is_expected.to have_http_status(404) } 
-      
-      it "retrive no data from any component" do
-        expect(json.class).to_not eq(Array)
-      end
-      
-      it "shows the properly not found message" do
-        expect(json["code"]).to eq("NotFound")
-        expect(json["message"]).to eq("No such resource")
-      end
-    end
   end
 
   describe "#status" do
-    context "when request all components status of a resource" do
-      let(:resource){BasicResource.last}
-      before {get "status", basic_resource_id: resource.id}
+    context "when request all components status" do
+      before {get "status"}
 
       it { is_expected.to be_success }
       it "retrive status from all components" do
-        expect(json.count).to eq(resource.components.count)
+        expect(json.count).to eq(Component.count)
       end
 
       it "retrieved components status data properly" do
         json.each do |register|
           component = Component.find(register["id"])
 
-          expect(resource.components).to include(component)
+          expect(Component.all).to include(component)
           expect(component.status).to eq(register["status"])
           expect(Time.zone.parse(register["updated_at"]).to_date).to eq(component.updated_at.to_date)
         end
       end
     end
-
-    context "when request components status of a non existing resource" do
-      before {get "status", basic_resource_id: -1}
-
-      it { is_expected.to have_http_status(404) }
-
-      it "retrive no status data from any component" do
-        expect(json.class).to_not eq(Array)
-      end
-
-      it "shows the properly not found message" do
-        expect(json["code"]).to eq("NotFound")
-        expect(json["message"]).to eq("No such resource")
-      end
-    end
   end
  
   describe "#show" do
-    let(:resource){BasicResource.last}
-    context "when request a specific component from a resource" do
-      let(:component){resource.components.last}
+    context "when request a specific component" do
+      let(:component){Component.last}
 
-      before {get "show", basic_resource_id: resource.id, id: component.id}
+      before {get "show", id: component.id}
 
       it { is_expected.to be_success }
       it "retrive only data of specified component" do
@@ -114,7 +81,7 @@ describe ComponentsController do
     end
 
     context "when request a non existing component" do
-      before {get "show", basic_resource_id: resource.id, id: -1}
+      before {get "show", id: -1}
 
       it { is_expected.to have_http_status(404) } 
       it "shows the not found message" do
@@ -125,11 +92,10 @@ describe ComponentsController do
   end
 
   describe "#collect" do
-    let(:resource){BasicResource.last}
     context "when request data collected from a component" do
-      let(:component){resource.components.last}
+      let(:component){Component.last}
 
-      before {get "collect", basic_resource_id: resource.id, id: component.id}
+      before {get "collect", id: component.id}
 
       it { is_expected.to be_success }
       it "retrive only data of specified component" do
@@ -152,7 +118,7 @@ describe ComponentsController do
               raise Error
             end
           end
-          get "collect", basic_resource_id: resource.id, id: component.id
+          get "collect", id: component.id
         end
 
         it { is_expected.to have_http_status(500) }
@@ -164,7 +130,7 @@ describe ComponentsController do
     end
 
     context "when request a non existing component" do
-      before {get "collect", basic_resource_id: resource.id, id: -1}
+      before {get "collect", id: -1}
 
       it { is_expected.to have_http_status(404) }
       it "shows the not found message" do
@@ -175,11 +141,10 @@ describe ComponentsController do
   end
 
   describe "#collect_specific" do
-    let(:resource){BasicResource.last}
-    let(:component){resource.components.last}
+    let(:component){Component.last}
     context "when request data collected from a specific capability of an component" do
       let(:capability){component.capabilities.last}
-      before {get "collect_specific", basic_resource_id: resource.id, id: component.id, capability: capability}
+      before {get "collect_specific", id: component.id, capability: capability}
 
       it { is_expected.to be_success }
       it "retrive only data from specific capability" do
@@ -188,7 +153,7 @@ describe ComponentsController do
     end
 
     context "when request a non existing capability" do
-      before {get "collect_specific", basic_resource_id: resource.id, id: component.id, capability: "non_existing"}
+      before {get "collect_specific", id: component.id, capability: "non_existing"}
 
       it { is_expected.to have_http_status(422) }
       it "shows the unprocessable entry message" do
@@ -199,12 +164,11 @@ describe ComponentsController do
   end
 
   describe "#actuate" do
-    let(:resource){BasicResource.last}
-    let(:component){resource.components.last}
+    let(:component){Component.last}
     context 'when correctly actuate in a capability' do
       let(:capability){'temperature'}
       before do
-        put 'actuate', basic_resource_id: resource.id, id: component.id, capability: capability, data: {value: 17}
+        put 'actuate', id: component.id, capability: capability, data: {value: 17}
       end
 
       it { is_expected.to be_success }
@@ -214,7 +178,7 @@ describe ComponentsController do
     end
 
     context "when request a non existing capability" do
-      before {put 'actuate', basic_resource_id: resource.id, id: component.id, capability: 'non_existing', data: {value: 17}}
+      before {put 'actuate', id: component.id, capability: 'non_existing', data: {value: 17}}
 
       it { is_expected.to have_http_status(422) }
       it "shows the unprocessable entry message" do
@@ -224,7 +188,7 @@ describe ComponentsController do
     end
 
     context "when request an existing sensor-only capability" do
-      before {put 'actuate', basic_resource_id: resource.id, id: component.id, capability: 'humidity', data: {value: 17}}
+      before {put 'actuate', id: component.id, capability: 'humidity', data: {value: 17}}
 
       it { is_expected.to have_http_status(405) }
       it "shows the unprocessable entry message" do
@@ -236,7 +200,7 @@ describe ComponentsController do
     context "when give wrong params to actuate" do
       before do
         expect(controller).to receive(:actuator_params).and_raise
-        put 'actuate', basic_resource_id: resource.id, id: component.id, capability: 'temperature', data: {value: nil}
+        put 'actuate', id: component.id, capability: 'temperature', data: {value: nil}
       end
 
       it { is_expected.to have_http_status(500) }

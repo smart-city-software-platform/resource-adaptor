@@ -11,6 +11,7 @@ describe ComponentServices do
 
   describe ComponentServices::TrafficFlow do
     before do
+      Component.collected_data = {}
       component.capabilities = ['traffic_speed','traffic_density', 'traffic_light_status']
       component.last_collection['traffic_speed'] = 0
       component.last_collection['traffic_density'] = 0

@@ -1,14 +1,12 @@
 Rails.application.routes.draw do
-  resources :basic_resources, except: [:new, :edit] do
-    resources :components, except: [:new, :edit] do
-      collection do
-        get 'status'
-      end
-      member do
-        get 'collect/:capability', to: "components#collect_specific"
-        get 'collect', to: "components#collect"
-        put 'actuate/:capability', to: "components#actuate"
-      end
+  resources :components, except: [:new, :edit] do
+    collection do
+      get 'status'
+    end
+    member do
+      get 'collect/:capability', to: "components#collect_specific"
+      get 'collect', to: "components#collect"
+      put 'actuate/:capability', to: "components#actuate"
     end
   end
 
