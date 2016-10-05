@@ -2,5 +2,5 @@
 
 services:
   catalog: "resource-cataloguer:3000"
-  colector: "data-collector:4000"
-  resource: "resource-adaptor:3002"
+  colector: "data-collector:3000"
+  resource: "resource-adaptor:3000"
