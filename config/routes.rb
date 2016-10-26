@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     member do
       get 'collect/:capability', to: "components#collect_specific"
       get 'collect', to: "components#collect"
+      post 'data/:capability', to: "components#data_specific"
+      post 'data', to: "components#data"
       put 'actuate/:capability', to: "components#actuate"
     end
   end

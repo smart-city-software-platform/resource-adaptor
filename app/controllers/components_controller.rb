@@ -1,6 +1,6 @@
 class ComponentsController < ApplicationController
-  before_action :set_component, only: [:show, :collect_specific, :collect, :actuate]
-  before_action :set_capability, only: [:collect_specific, :actuate]
+  before_action :set_component, only: [:show, :collect_specific, :collect, :data_specific, :data, :actuate]
+  before_action :set_capability, only: [:collect_specific, :actuate, :data_specific]
 
   # GET /components/
   def index
@@ -43,6 +43,21 @@ class ComponentsController < ApplicationController
     end
   end
 
+  # POST /components/1/data/
+  def data
+    params['data']['data'].each do |capability_name, value|
+      @component.observations[capability_name] = value.first
+    end
+
+    render status: 201, json: {}
+  end
+
+  # POST /components/1/data/temperature
+  def data_specific
+    @component.observations[@capability] = data_params.first
+    render status: 201, json: {}
+  end
+
   # PUT /components/1/actuate/traffic_light_status
   def actuate
     begin
@@ -69,6 +84,10 @@ class ComponentsController < ApplicationController
 
     def actuator_params
       params.require(:data).permit(:value)
+    end
+
+    def data_params
+      params.require(:data).require(:data)
     end
 
     def set_component

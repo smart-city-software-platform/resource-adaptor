@@ -163,6 +163,66 @@ describe ComponentsController do
     end
   end
 
+  describe "#data_specific" do
+    let(:component){Component.last}
+    context 'post one observed data to existing capability' do
+      let(:capability){'temperature'}
+      before do
+        json = {
+          data: [
+            {value: '12.8', timestamp: '20/08/2016T10:27:40'}
+          ]
+        }
+
+        post 'data_specific', id: component.id, capability: capability, data: json
+      end
+
+      it { is_expected.to have_http_status(201) }
+      it 'should update component observation' do
+        component.reload
+        observations = component.current_data['temperature']
+        expect(observations['value']).to eq('12.8')
+        expect(observations['timestamp']).to eq('20/08/2016T10:27:40')
+      end
+    end
+  end
+
+  describe "#data" do
+    let(:component){Component.last}
+    context 'post observed data of two existing capability' do
+      before do
+        json = {
+          data: {
+            temperature: [
+              {value: '20.2', timestamp: '20/08/2016T10:27:40'}
+            ],
+            humidity: [
+              {value: '67', timestamp: '30/10/2016T06:32:03'}
+            ]
+          }
+        }
+
+        post 'data', id: component.id, data: json
+      end
+
+      it { is_expected.to have_http_status(201) }
+
+      it 'should update component temperature observation' do
+        component.reload
+        observations = component.current_data['temperature']
+        expect(observations['value']).to eq('20.2')
+        expect(observations['timestamp']).to eq('20/08/2016T10:27:40')
+      end
+
+      it 'should update component humidity observation' do
+        component.reload
+        observations = component.current_data['humidity']
+        expect(observations['value']).to eq('67')
+        expect(observations['timestamp']).to eq('30/10/2016T06:32:03')
+      end
+    end
+  end
+
   describe "#actuate" do
     let(:component){Component.last}
     context 'when correctly actuate in a capability' do
