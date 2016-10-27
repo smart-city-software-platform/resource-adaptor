@@ -45,7 +45,9 @@ class ComponentsController < ApplicationController
 
   # POST /components/1/data/
   def data
-    params['data']['data'].each do |capability_name, value|
+    data_manager = DataManager.instance
+    data_params.each do |capability_name, value|
+      data_manager.publish_resource_data(@component, capability_name, value.first)
       @component.observations[capability_name] = value.first
     end
 
@@ -87,7 +89,7 @@ class ComponentsController < ApplicationController
     end
 
     def data_params
-      params.require(:data).require(:data)
+      params.require(:data)
     end
 
     def set_component

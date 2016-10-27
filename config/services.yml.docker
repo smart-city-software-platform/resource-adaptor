@@ -1,6 +1,7 @@
 # Be sure to restart your server when you modify this file
 
 services:
-  catalog: "localhost:3000"
-  colector: "localhost:4000"
-  resource: "localhost:3002"
+  catalog: "resource-cataloguer:3000"
+  colector: "data-collector:3000"
+  resource: "resource-adaptor:3000"
+  rabbitmq: "rabbitmq"

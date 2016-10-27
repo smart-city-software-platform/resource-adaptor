@@ -36,8 +36,11 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    amq-protocol (2.0.1)
     arel (6.0.3)
     builder (3.2.2)
+    bunny (2.5.1)
+      amq-protocol (>= 2.0.1)
     colorize (0.7.7)
     concurrent-ruby (1.0.1)
     diff-lcs (1.2.5)
@@ -137,6 +140,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bunny (~> 2.5.1)
   colorize
   httparty
   pg
@@ -148,3 +152,6 @@ DEPENDENCIES
   simplecov
   spring
   sqlite3
+
+BUNDLED WITH
+   1.12.5

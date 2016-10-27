@@ -168,13 +168,13 @@ describe ComponentsController do
     context 'post one observed data to existing capability' do
       let(:capability){'temperature'}
       before do
-        json = {
-          data: [
-            {value: '12.8', timestamp: '20/08/2016T10:27:40'}
-          ]
-        }
+        allow_any_instance_of(DataManager).to receive(:setup).and_return(true)
+        allow(DataManager.instance).to receive(:publish_resource_data) {true}
 
-        post 'data_specific', id: component.id, capability: capability, data: json
+        post 'data_specific',
+          id: component.id,
+          capability: capability,
+          data: [{value: '12.8', timestamp: '20/08/2016T10:27:40'}]
       end
 
       it { is_expected.to have_http_status(201) }
@@ -191,6 +191,8 @@ describe ComponentsController do
     let(:component){Component.last}
     context 'post observed data of two existing capability' do
       before do
+        allow_any_instance_of(DataManager).to receive(:setup).and_return(true)
+        allow(DataManager.instance).to receive(:publish_resource_data) {true}
         json = {
           data: {
             temperature: [
@@ -202,7 +204,16 @@ describe ComponentsController do
           }
         }
 
-        post 'data', id: component.id, data: json
+        post 'data',
+          id: component.id,
+          data: {
+            temperature: [
+              {value: '20.2', timestamp: '20/08/2016T10:27:40'}
+            ],
+            humidity: [
+              {value: '67', timestamp: '30/10/2016T06:32:03'}
+            ]
+          }
       end
 
       it { is_expected.to have_http_status(201) }

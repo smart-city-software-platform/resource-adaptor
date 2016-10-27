@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.6.5
+    ports:
+      - '15672:15672'
+  resource-adaptor:
+    container_name: resource-adaptor
+    depends_on:
+      - 'rabbitmq'
+    build: .
+    ports:
+      - 3002:3000
+    volumes:
+      - '.:/resource-adaptor'
+
+networks:
+  default:
+    external:
+      name: platform 

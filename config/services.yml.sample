@@ -4,4 +4,5 @@ services:
   catalog: "catalog.url"
   colector: "colector.url"
   resource: "resource.url"
+  rabbitmq: "rabbitmq"
 
