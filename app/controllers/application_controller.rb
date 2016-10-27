@@ -1,6 +1,4 @@
 class ApplicationController < ActionController::API
-  before_action :start_collection
-
   ERROR_CODE = {}
 
   ERROR_CODE[200] = "OK"
@@ -27,11 +25,5 @@ class ApplicationController < ActionController::API
       }
 
       {json: payload, status: status}
-    end
-
-    def start_collection
-      if Rails.env.development? || Rails.env.production?
-        ComponentsManager.instance.start_all if ComponentsManager.instance.status.count == 0
-      end
     end
 end

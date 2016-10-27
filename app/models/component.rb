@@ -13,21 +13,6 @@ class Component < ActiveRecord::Base
   scope :unregistered, -> { where(uuid: nil) }
   scope :registered, -> { where.not(uuid: nil) }
 
-  def perform
-    component = self
-    service = "ComponentServices::" + component.service_type
-    component.send(:extend, service.constantize)
-    Thread.abort_on_exception = true
-    Thread.new do
-      loop do
-        component.capabilities.each do |cap|
-          component.current_data[cap.to_s] = component.send("collect_" + cap.to_s)
-        end
-        sleep component.collect_interval
-      end
-    end
-  end
-
   def current_data
     Component.collected_data[self.id] = self.last_collection if Component.collected_data[self.id].nil?
     Component.collected_data[self.id]
