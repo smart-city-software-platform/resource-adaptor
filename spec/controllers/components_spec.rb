@@ -257,28 +257,5 @@ describe ComponentsController do
         expect(json["message"]).to eq("The required component does not respond to such capability")
       end
     end
-
-    context "when request an existing sensor-only capability" do
-      before {put 'actuate', id: component.id, capability: 'humidity', data: {value: 17}}
-
-      it { is_expected.to have_http_status(405) }
-      it "shows the unprocessable entry message" do
-        expect(json["code"]).to eq("MethodNotAllowed")
-        expect(json["message"]).to eq("Impossible to actuate over the required capability")
-      end
-    end
-
-    context "when give wrong params to actuate" do
-      before do
-        expect(controller).to receive(:actuator_params).and_raise
-        put 'actuate', id: component.id, capability: 'temperature', data: {value: nil}
-      end
-
-      it { is_expected.to have_http_status(500) }
-      it "shows the unprocessable entry message" do
-        expect(json["code"]).to eq("InternalError")
-        expect(json["message"]).to eq("Error while actuating on device")
-      end
-    end
   end
 end

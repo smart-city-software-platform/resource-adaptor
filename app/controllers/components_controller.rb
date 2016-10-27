@@ -62,24 +62,8 @@ class ComponentsController < ApplicationController
 
   # PUT /components/1/actuate/traffic_light_status
   def actuate
-    begin
-      service = "ComponentServices::" + @component.service_type
-      @component.extend(service.constantize)
-      actuate_method = 'actuate_' + @capability.to_s
-      unless @component.respond_to? actuate_method
-        render error_payload("Impossible to actuate over the required capability", 405) and return
-      end
-
-      result = @component.send(actuate_method, actuator_params[:value])
-
-      if result.nil?
-        render error_payload("The required component can not actuate with received parameters", 422) and return
-      end
-
-      render json: {data: {state: result, updated_at: Time.now.utc}}
-    rescue
-      render error_payload("Error while actuating on device", 500)
-    end
+      actuate_method = @capability.to_s
+      render json: {data: {state: actuator_params[:value], updated_at: Time.now.utc}}
   end
 
   private

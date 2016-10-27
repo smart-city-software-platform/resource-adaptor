@@ -1,5 +1,3 @@
-require "component_services"
-
 class Component < ActiveRecord::Base
   cattr_accessor :collected_data
   @@collected_data = {}
