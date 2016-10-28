@@ -12,9 +12,9 @@ class ApplicationController < ActionController::API
   ERROR_CODE[429] = "TooManyRequests"
 
   ERROR_CODE[500] = "InternalError"
-  ERROR_CODE[501] = "InternalError"
-  ERROR_CODE[502] = "InternalError"
-  ERROR_CODE[503] = "InternalError"
+  ERROR_CODE[501] = "NotImplemented"
+  ERROR_CODE[502] = "BadGateway"
+  ERROR_CODE[503] = "ServiceUnavailable"
 
   protected
 

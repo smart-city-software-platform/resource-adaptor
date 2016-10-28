@@ -1,6 +1,20 @@
 class ComponentsController < ApplicationController
-  before_action :set_component, only: [:show, :collect_specific, :collect, :data_specific, :data, :actuate]
+  before_action :set_component, only: [:update, :show, :collect_specific, :collect, :data_specific, :data, :actuate]
   before_action :set_capability, only: [:collect_specific, :actuate, :data_specific]
+
+  # POST /components/
+  def create
+    response = Platform::ResourceManager.register_resource(resource_params)
+    if response.nil?
+      render error_payload("Register service is unavailable", 503)
+    else
+      render json: response.body, status: response.code
+    end
+  end
+
+  # PUT /components/1
+  def update
+  end
 
   # GET /components/
   def index
@@ -67,6 +81,10 @@ class ComponentsController < ApplicationController
   end
 
   private
+
+    def resource_params
+      params.require(:data)
+    end
 
     def actuator_params
       params.require(:data).permit(:value)

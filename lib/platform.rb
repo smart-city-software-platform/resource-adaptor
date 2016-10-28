@@ -2,6 +2,19 @@ require 'json'
 
 module Platform
   module ResourceManager
+    def self.register_resource(data)
+      begin
+        response = RestClient.post(
+          SERVICES_CONFIG['services']['catalog'] + "/resources",
+          {data: data}
+        )
+        return response
+      rescue Exception => e
+        puts "Could not register Component #{component.id} - ERROR #{e}"
+        return nil
+      end
+    end
+
     def self.register_all
       registered = 0
       Component.unregistered.each do |component|

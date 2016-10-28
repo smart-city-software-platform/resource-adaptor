@@ -11,6 +11,72 @@ describe ComponentsController do
     create_resources
   end
 
+  describe '#create' do
+    context 'correct requests' do
+      before do
+        Platform::ResourceManager = double
+        cataloguer_response_body = {
+          "data" => {
+            "description" => "A simple resource in São Paulo",
+            "status" => "stopped",
+            "country" => "Brazil",
+            "state" => "São Paulo",
+            "uri" => "example2.com",
+            "postal_code" => "05508-090",
+            "id" => 677,
+            "lon" => -46.731386,
+            "updated_at" => "2016-10-28T13:25:16.069Z",
+            "uuid" => "956a8ec9-bda7-45b3-85fc-8762cee2879a",
+            "city" => "São Paulo",
+            "neighborhood" => "Butantã",
+            "capabilities" => [
+              "temperature"
+            ],
+            "collect_interval" => 5,
+            "created_at" => "2016-10-28T13:25:16.069Z",
+            "lat" => -23.559616
+          }
+        }
+        cataloguer_response = double
+        allow(cataloguer_response).to receive(:code).and_return(201)
+        allow(cataloguer_response).to receive(:body).and_return(JSON(cataloguer_response_body))
+        allow(Platform::ResourceManager).to receive(:register_resource).and_return(cataloguer_response)
+
+        post 'create',
+          data: {
+          lat: -23.559616,
+          lon: -46.731386,
+          status: "stopped",
+          description: "A simple resource in São Paulo",
+          capabilities: ["temperature"]
+        }
+      end
+
+      it { is_expected.to have_http_status(:created) }
+    end
+
+    context 'Resource Cataloguer unavailable' do
+      before do
+        Platform::ResourceManager = double
+        allow(Platform::ResourceManager).to receive(:register_resource).and_return(nil)
+
+        post 'create',
+          data: {
+          lat: -23.559616,
+          lon: -46.731386,
+          status: "stopped",
+          description: "A simple resource in São Paulo",
+          capabilities: ["temperature"]
+        }
+      end
+
+      it { is_expected.to have_http_status(503) }
+      it 'returns an error message' do
+        body = JSON.parse(response.body)
+        expect(body["message"]).to eq('Register service is unavailable') end
+    end
+  end
+
   describe "#index" do
     context "when request all components data" do
       before {get "index"}
