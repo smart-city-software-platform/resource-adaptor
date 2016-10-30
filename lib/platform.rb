@@ -9,8 +9,25 @@ module Platform
           {data: data}
         )
         return response
+      rescue RestClient::Exception => e
+        return e.response
       rescue Exception => e
-        puts "Could not register Component #{component.id} - ERROR #{e}"
+        puts "Could not register Resource - ERROR #{e}"
+        return nil
+      end
+    end
+
+    def self.update_resource(uuid, data)
+      begin
+        response = RestClient.put(
+          SERVICES_CONFIG['services']['catalog'] + "/resources/#{uuid}",
+          {data: data}
+        )
+        return response
+      rescue RestClient::Exception => e
+        return e.response
+      rescue Exception => e
+        puts "Could not register Resource - ERROR #{e}"
         return nil
       end
     end

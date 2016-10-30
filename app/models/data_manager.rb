@@ -10,9 +10,9 @@ class DataManager
     self.setup
   end
 
-  def publish_resource_data(resource, capability, value)
+  def publish_resource_data(uuid, capability, value)
     message = JSON(value)
-    key = resource.uuid + '.' + capability
+    key = uuid + '.' + capability
     @topic.publish(message, routing_key: key)
   end
 
