@@ -25,6 +25,11 @@ services:
     environment:
       POSTGRES_USER: 'postgres'
       POSTGRES_PASSWORD: 'admin'
+      POSTGRES_HOST: 'resource-adaptor-pg'
+      POSTGRES_PORT: 5432
+      CATALOGUER_HOST: 'resource-cataloguer:3000'
+      ADAPTOR_HOST: 'resource-adaptor:3000'
+      RABBITMQ_HOST: 'rabbitmq'
 
 networks:
   default:
