@@ -1,5 +1,5 @@
 FROM debian:unstable
-RUN apt update -qy && apt install ruby bundler libxml2 libsqlite3-dev libpq-dev postgresql postgresql-contrib -yq
+RUN apt update -qy && apt install ruby bundler libxml2 zlib1g-dev libsqlite3-dev libpq-dev postgresql postgresql-contrib -yq
 RUN mkdir -p /resource-adaptor/
 ADD . /resource-adaptor/
 WORKDIR /resource-adaptor/
