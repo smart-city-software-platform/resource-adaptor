@@ -1,17 +1,3 @@
-module ComponentServices
-  module Foo
-    def collect_temperature
-      10
-    end
-    def collect_humidity
-      8
-    end
-    def actuate_temperature(temperature)
-      return temperature
-    end
-  end
-end
-
 module DataHelper
   def create_resources(components = 3)
     (1..components).each do |i|

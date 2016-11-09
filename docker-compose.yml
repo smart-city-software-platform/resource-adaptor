@@ -1,0 +1,37 @@
+version: '2'
+
+services:
+  postgres:
+    container_name: resource-adaptor-pg
+    image: 'postgres:9.5'
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'admin'
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.6.5
+    ports:
+      - '15672:15672'
+  resource-adaptor:
+    container_name: resource-adaptor
+    depends_on:
+      - 'postgres'
+      - 'rabbitmq'
+    build: .
+    ports:
+      - 3002:3000
+    volumes:
+      - '.:/resource-adaptor'
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'admin'
+      POSTGRES_HOST: 'resource-adaptor-pg'
+      POSTGRES_PORT: 5432
+      CATALOGUER_HOST: 'resource-cataloguer:3000'
+      ADAPTOR_HOST: 'resource-adaptor:3000'
+      RABBITMQ_HOST: 'rabbitmq'
+
+networks:
+  default:
+    external:
+      name: platform 

@@ -91,29 +91,6 @@ describe Component, :type => :model do
         end
       end
     end
-
-    describe "#perform" do
-      module ComponentServices
-        module Test
-          def collect_something
-            2.0
-          end
-        end
-      end
-
-      before do
-        component.service_type = "Test"
-        component.capabilities = ["something"]
-        component.save
-      end
-
-      it "creates a thread to collect data" do
-        component.reload
-        thread = component.perform
-        expect(thread.status).to_not be false
-        thread.exit
-      end
-    end
   end
 
   context "scopes" do
