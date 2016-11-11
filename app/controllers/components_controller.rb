@@ -50,7 +50,8 @@ class ComponentsController < ApplicationController
   def data
     data_manager = DataManager.instance
     data_params.each do |capability_name, value|
-      data_manager.publish_resource_data(@uuid, capability_name, value.first)
+      value = value.first if value.class == Array
+      data_manager.publish_resource_data(@uuid, capability_name, value)
     end
 
     render status: 201, json: {}
