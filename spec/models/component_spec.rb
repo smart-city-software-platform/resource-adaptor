@@ -20,6 +20,12 @@ describe Component, :type => :model do
     it "has a longitude" do
       expect(component.lon).to eq(-46)
     end
+
+    it "has meta_data" do
+      expect(component.meta_data.class).to eq(Hash)
+      expect(component.meta_data[:lat]).to eq(-23)
+      expect(component.meta_data[:lon]).to eq(-46)
+    end
     
     describe "#capabilities" do
       it "be saved as serialized data" do

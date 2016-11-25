@@ -16,15 +16,9 @@ class Component < ActiveRecord::Base
     Component.collected_data[self.id]
   end
 
-  def observations
-    current_data
-  end
-
   def method_missing(method, *arguments, &block)
     if self.current_data.has_key? method.to_s
       self.current_data[method.to_s]
-    elsif self.last_collection.has_key? method.to_s
-      self.last_collection[method.to_s]
     else
       super
     end
