@@ -68,7 +68,6 @@ class ComponentsController < ApplicationController
 
   # PUT /components/1/actuate/traffic_light_status
   def actuate
-    actuate_method = @capability.to_s
     render json: {data: {state: actuator_params[:value], updated_at: Time.now.utc}}
   end
 
