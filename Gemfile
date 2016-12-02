@@ -1,9 +1,6 @@
 source 'https://rubygems.org'
 
-
-gem 'rails', '4.2.2'
-
-gem 'rails-api'
+gem 'rails', '5.0.0'
 
 gem 'spring', :group => :development
 
