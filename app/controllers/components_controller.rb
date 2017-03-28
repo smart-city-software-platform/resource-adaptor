@@ -4,7 +4,7 @@ class ComponentsController < ApplicationController
 
   # POST /components/
   def create
-    response = Platform::ResourceManager.register_resource(resource_params)
+    response = Platform::ResourceManager.register_resource(resource_params.to_h)
     if response.nil?
       render error_payload("Register service is unavailable", 503)
     else
@@ -15,35 +15,12 @@ class ComponentsController < ApplicationController
   # PUT /components/:id
   def update
     uuid = params[:id]
-    response = Platform::ResourceManager.update_resource(uuid, resource_params)
+    response = Platform::ResourceManager.update_resource(uuid, resource_params.to_h)
     if response.nil?
       render error_payload("Service is unavailable", 503)
     else
       render json: response.body, status: response.code
     end
-  end
-
-  # GET /components/
-  def index
-    # Render authenticated resources
-    # @components = Component.all
-    # render json: @components
-  end
-
-  # GET /components/:uuid
-  def show
-    # Show details of a specific resource
-    # render json: {data: @component}
-  end
-
-  # GET /components/:uuid/collect/temperature
-  def collect_specific
-    # Show most recent data collected from resources
-  end
-
-  # GET /components/:uuid/collect
-  def collect
-    # Show most recent data collected from resources
   end
 
   # POST /components/1/data/
@@ -74,7 +51,7 @@ class ComponentsController < ApplicationController
   private
 
     def resource_params
-      params.require(:data)
+      params.require(:data).permit(:description, :lat, :lon, :status, :collect_interval, :uri)
     end
 
     def actuator_params

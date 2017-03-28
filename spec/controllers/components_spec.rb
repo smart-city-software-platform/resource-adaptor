@@ -77,14 +77,6 @@ describe ComponentsController do
     end
   end
 
-  describe "#index" do
-    context "when request all components data" do
-      before {get "index"}
-
-      it { is_expected.to be_success }
-    end
-  end
- 
   describe "#show" do
     context "when request a specific component" do
     end
