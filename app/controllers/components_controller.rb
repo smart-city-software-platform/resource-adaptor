@@ -26,7 +26,7 @@ class ComponentsController < ApplicationController
   # POST /components/1/data/
   def data
     data_manager = DataManager.instance
-    data_params.each do |capability_name, value|
+    data_params.to_unsafe_h.each do |capability_name, value|
       value = value.first if value.class == Array
       data_manager.publish_resource_data(@uuid, capability_name, value)
     end
@@ -51,7 +51,7 @@ class ComponentsController < ApplicationController
   private
 
     def resource_params
-      params.require(:data).permit(:description, :lat, :lon, :status, :collect_interval, :uri)
+      params.require(:data).permit(:description, :lat, :lon, :status, :collect_interval, :uri, capabilities: [])
     end
 
     def actuator_params
@@ -59,7 +59,7 @@ class ComponentsController < ApplicationController
     end
 
     def data_params
-      params.require(:data)
+      params[:data]
     end
 
     def set_component
