@@ -43,19 +43,10 @@ class ComponentsController < ApplicationController
     render status: 201, json: {}
   end
 
-  # PUT /components/1/actuate/traffic_light_status
-  def actuate
-    render json: {data: {state: actuator_params[:value], updated_at: Time.now.utc}}
-  end
-
   private
 
     def resource_params
       params.require(:data).permit(:description, :lat, :lon, :status, :collect_interval, :uri, capabilities: [])
-    end
-
-    def actuator_params
-      params.require(:data).permit(:value)
     end
 
     def data_params
