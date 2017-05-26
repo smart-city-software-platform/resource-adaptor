@@ -42,13 +42,14 @@ describe ComponentsController do
         allow(cataloguer_response).to receive(:body).and_return(JSON(cataloguer_response_body))
         allow(Platform::ResourceManager).to receive(:register_resource).and_return(cataloguer_response)
 
-        post 'create',
+        process :create, method: :post, params: {
           data: {
-          lat: -23.559616,
-          lon: -46.731386,
-          status: "stopped",
-          description: "A simple resource in São Paulo",
-          capabilities: ["temperature"]
+            lat: -23.559616,
+            lon: -46.731386,
+            status: "stopped",
+            description: "A simple resource in São Paulo",
+            capabilities: ["temperature"]
+          }
         }
       end
 
@@ -60,13 +61,14 @@ describe ComponentsController do
         stub_const("Platform::ResourceManager", double)
         allow(Platform::ResourceManager).to receive(:register_resource).and_return(nil)
 
-        post 'create',
+        process :create, method: :post, params: {
           data: {
-          lat: -23.559616,
-          lon: -46.731386,
-          status: "stopped",
-          description: "A simple resource in São Paulo",
-          capabilities: ["temperature"]
+            lat: -23.559616,
+            lon: -46.731386,
+            status: "stopped",
+            description: "A simple resource in São Paulo",
+            capabilities: ["temperature"]
+          }
         }
       end
 
@@ -108,10 +110,11 @@ describe ComponentsController do
         allow_any_instance_of(DataManager).to receive(:setup).and_return(true)
         allow(DataManager.instance).to receive(:publish_resource_data) {true}
 
-        post 'data_specific',
+        process :data_specific, method: :post, params: {
           id: component.id,
           capability: capability,
           data: [{value: '12.8', timestamp: '20/08/2016T10:27:40'}]
+        }
       end
 
       it { is_expected.to have_http_status(201) }
@@ -127,6 +130,7 @@ describe ComponentsController do
         allow_any_instance_of(DataManager).to receive(:setup).and_return(true)
         allow(DataManager.instance).to receive(:publish_resource_data) {true}
         json = {
+          id: component.id,
           data: {
             temperature: [
               {value: '20.2', timestamp: '20/08/2016T10:27:40'}
@@ -137,16 +141,7 @@ describe ComponentsController do
           }
         }
 
-        post 'data',
-          id: component.id,
-          data: {
-            temperature: [
-              {value: '20.2', timestamp: '20/08/2016T10:27:40'}
-            ],
-            humidity: [
-              {value: '67', timestamp: '30/10/2016T06:32:03'}
-            ]
-          }
+        process :data, method: :post, params: json
       end
 
       it { is_expected.to have_http_status(201) }
