@@ -79,29 +79,6 @@ describe ComponentsController do
     end
   end
 
-  describe "#show" do
-    context "when request a specific component" do
-    end
-
-    context "when request a non existing component" do
-    end
-  end
-
-  describe "#collect" do
-    context "when request data collected from a component" do
-      context "when something goes wrong" do
-      end
-    end
-
-    context "when request a non existing component" do
-    end
-  end
-
-  describe "#collect_specific" do
-    context "when request data collected from a specific capability of an component" do
-    end
-  end
-
   describe "#data_specific" do
     let(:component){Component.last}
     context 'post one observed data to existing capability' do
@@ -151,14 +128,6 @@ describe ComponentsController do
 
       it 'should update component humidity observation' do
       end
-    end
-  end
-
-  describe "#actuate" do
-    context 'when correctly actuate in a capability' do
-    end
-
-    context "when request a non existing capability" do
     end
   end
 end

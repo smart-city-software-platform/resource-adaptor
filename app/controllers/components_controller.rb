@@ -1,6 +1,6 @@
 class ComponentsController < ApplicationController
-  before_action :set_component, only: [:show, :collect_specific, :collect, :data_specific, :data, :actuate]
-  before_action :set_capability, only: [:collect_specific, :actuate, :data_specific]
+  before_action :set_component, only: [:data_specific, :data]
+  before_action :set_capability, only: [:data_specific]
 
   # POST /components/
   def create
