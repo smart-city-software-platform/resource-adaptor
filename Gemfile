@@ -12,6 +12,15 @@ gem 'rest-client'
 gem 'sqlite3'
 gem 'pg'
 
+# Sidekiq and redis
+gem 'sidekiq'
+gem 'redis'
+gem 'redis-namespace'
+gem 'rest-client'
+
+# RabbitMQ
+gem 'bunny', '~> 2.5.1'
+
 gem 'colorize'
 
 group :development, :test do

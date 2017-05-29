@@ -7,11 +7,17 @@ services:
     environment:
       POSTGRES_USER: 'postgres'
       POSTGRES_PASSWORD: 'admin'
+
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3.6.5
     ports:
       - '5672:5672'
+
+  redis:
+    image: 'redis'
+    container_name: resource-adaptor-redis
+
   resource-adaptor:
     container_name: resource-adaptor
     depends_on:
@@ -30,6 +36,25 @@ services:
       CATALOGUER_HOST: 'resource-cataloguer:3000'
       ADAPTOR_HOST: 'resource-adaptor:3000'
       RABBITMQ_HOST: 'rabbitmq'
+
+  sidekiq:
+    container_name: resource-adaptor-sidekiq
+    links:
+      - 'postgres'
+      - 'redis'
+    build: .
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    volumes:
+      - '.:/resource-adaptor'
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'admin'
+      POSTGRES_HOST: 'resource-adaptor-pg'
+      POSTGRES_PORT: 5432
+      CATALOGUER_HOST: 'resource-cataloguer:3000'
+      ADAPTOR_HOST: 'resource-adaptor:3000'
+      RABBITMQ_HOST: 'rabbitmq'
+      RAILS_ENV: 'development'
 
 networks:
   default:

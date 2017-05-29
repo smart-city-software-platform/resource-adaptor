@@ -9,12 +9,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'manager/status', to: "components_manager#status_all"
-  get 'manager/status/:component_id', to: "components_manager#status"
-  get 'manager/start', to: "components_manager#start_all"
-  get 'manager/start/:component_id', to: "components_manager#start"
-  get 'manager/stop', to: "components_manager#stop_all"
-  get 'manager/stop/:component_id', to: "components_manager#stop"
+  post 'subscriptions/:uuid', to: "actuators#subscribe"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
