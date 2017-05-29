@@ -31,5 +31,18 @@ module Platform
         return nil
       end
     end
+
+    def self.get_resource(uuid)
+      begin
+        response = RestClient.get(
+          SERVICES_CONFIG['services']['catalog'] + "/resources/#{uuid}")
+        return response
+      rescue RestClient::Exception => e
+        return e.response
+      rescue StandardError => e
+        puts "Could not register Resource - ERROR #{e}"
+        return nil
+      end
+    end
   end
 end

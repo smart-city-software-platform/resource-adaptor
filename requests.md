@@ -8,3 +8,8 @@
 
 * Post data
 > curl -H "Content-Type: application/json" -X POST -d '{"data":{"temperature":[{"value":"12.8","timestamp":"20/08/2016T10:27:40"}], "humidity":[{"value":"100", "timestamp":"02/12/2016T10:27:40"}]}}' http://localhost:3002/components/8a98d61c-a60f-46ea-b8aa-36a33f018aa81/data
+
+* Create a resource and Subscribe to receive its actuator commands:
+> curl -H "Content-Type: application/json" -X POST -d '{"data":{"lat":-23.559616,"lon":-46.731386,"description":"A simple resource in São Paulo","capabilities":["semaphore"], "status":"active"}}' http://localhost:3002/components | json_pp
+> curl -H "Content-Type: application/json" -X POST -d '{"subscription":{"uuid":"0dbdae10-4156-4433-9291-5d261eb0d8eb", "url":"http://myendpoint.com", "capabilities":["semaphore"]}}' http://localhost:3002/subscriptions | json_pp
+

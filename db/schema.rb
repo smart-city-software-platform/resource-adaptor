@@ -10,23 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928144729) do
+ActiveRecord::Schema.define(version: 20170529164945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "components", force: :cascade do |t|
+  create_table "subscriptions", force: :cascade do |t|
     t.string   "uuid"
-    t.float    "lat"
-    t.float    "lon"
-    t.string   "service_type"
-    t.string   "status",           default: "active", null: false
-    t.integer  "collect_interval"
-    t.text     "last_collection"
-    t.text     "capabilities"
-    t.text     "description"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.string   "url"
+    t.string   "capabilities", default: [],                array: true
+    t.boolean  "active",       default: true
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
 end
