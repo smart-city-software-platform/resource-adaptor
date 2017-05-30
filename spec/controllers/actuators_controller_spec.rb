@@ -429,4 +429,44 @@ describe ActuatorsController do
       end
     end
   end
+
+  describe '#delete' do
+    let(:subscription) do
+      Subscription.create!(
+        uuid: "956a8ec9-bda7-45b3-85fc-8762cee2879a",
+        url: "http://oldendpoint.com",
+        capabilities: ["semaphore"]
+      )
+    end
+
+    context 'existing resource' do
+      before do
+        process :destroy, method: :delete, params: {
+          id: subscription.id,
+        }
+      end
+
+      it "returns no content" do
+        expect(response).to have_http_status(:no_content)
+      end
+
+      it "destroy the subscription" do
+        expect { Subscription.find subscription.id }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'when subscription is not found' do
+      before do
+        process :destroy, method: :delete, params: {
+          id: -1,
+        }
+      end
+
+      it "returns 404 error" do
+        expect(response).to have_http_status(:not_found)
+        expect(json).to have_key("error")
+        expect(json["error"]).to eq("Subscription not found")
+      end
+    end
+  end
 end

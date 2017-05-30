@@ -1,5 +1,5 @@
 class ActuatorsController < ApplicationController
-  before_action :set_subscription, only: [:update]
+  before_action :set_subscription, only: [:update, :destroy]
 
   # POST /subscriptions/
   def subscribe
@@ -59,6 +59,12 @@ class ActuatorsController < ApplicationController
     render json: {subscription: @subscription}, status: 200
   end
 
+  # DELETE /subscriptions/:id
+  def destroy
+    @subscription.destroy
+    render json: nil, head: :no_content, status: 204
+  end
+
   private
 
     def subscription_params
@@ -69,5 +75,6 @@ class ActuatorsController < ApplicationController
       @subscription = Subscription.find(params["id"])
     rescue ActiveRecord::RecordNotFound
       render json: {error: "Subscription not found"}, status: 404
+      return
     end
 end

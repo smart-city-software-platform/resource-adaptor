@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   post 'subscriptions', to: "actuators#subscribe"
   put 'subscriptions/:id', to: "actuators#update"
+  delete 'subscriptions/:id', to: "actuators#destroy"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
