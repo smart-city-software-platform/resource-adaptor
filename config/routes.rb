@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   end
 
   post 'subscriptions', to: "actuators#subscribe"
+  put 'subscriptions/:id', to: "actuators#update"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
