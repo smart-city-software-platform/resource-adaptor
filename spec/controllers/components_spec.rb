@@ -1,28 +1,21 @@
 require "rails_helper"
 require "spec_helper"
-require "data_helper"
-
-include DataHelper
 
 describe ComponentsController do
   subject {response}
   let(:json) {JSON.parse(response.body)}
-  before do
-    create_resources
-  end
-
-  describe '#create' do
-    context 'correct requests' do
-      before do
-        stub_const("Platform::ResourceManager", double)
-        cataloguer_response_body = {
-          "data" => {
-            "description" => "A simple resource in São Paulo",
-            "status" => "stopped",
-            "country" => "Brazil",
-            "state" => "São Paulo",
-            "uri" => "example2.com",
-            "postal_code" => "05508-090",
+    describe '#create' do
+      context 'correct requests' do
+        before do
+          stub_const("Platform::ResourceManager", double)
+          cataloguer_response_body = {
+            "data" => {
+              "description" => "A simple resource in São Paulo",
+              "status" => "stopped",
+              "country" => "Brazil",
+              "state" => "São Paulo",
+              "uri" => "example2.com",
+              "postal_code" => "05508-090",
             "id" => 677,
             "lon" => -46.731386,
             "updated_at" => "2016-10-28T13:25:16.069Z",
@@ -80,7 +73,6 @@ describe ComponentsController do
   end
 
   describe "#data_specific" do
-    let(:component){Component.last}
     context 'post one observed data to existing capability' do
       let(:capability){'temperature'}
       before do
@@ -88,7 +80,7 @@ describe ComponentsController do
         allow(DataManager.instance).to receive(:publish_resource_data) {true}
 
         process :data_specific, method: :post, params: {
-          id: component.id,
+          id: 10,
           capability: capability,
           data: [{value: '12.8', timestamp: '20/08/2016T10:27:40'}]
         }
@@ -101,13 +93,12 @@ describe ComponentsController do
   end
 
   describe "#data" do
-    let(:component){Component.last}
     context 'post observed data of two existing capability' do
       before do
         allow_any_instance_of(DataManager).to receive(:setup).and_return(true)
         allow(DataManager.instance).to receive(:publish_resource_data) {true}
         json = {
-          id: component.id,
+          id: 10,
           data: {
             temperature: [
               {value: '20.2', timestamp: '20/08/2016T10:27:40'}
