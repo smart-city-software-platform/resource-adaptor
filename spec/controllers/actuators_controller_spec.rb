@@ -469,4 +469,102 @@ describe ActuatorsController do
       end
     end
   end
+
+  describe '#show' do
+    let(:subscription) do
+      Subscription.create!(
+        uuid: "956a8ec9-bda7-45b3-85fc-8762cee2879a",
+        url: "http://endpoint.com",
+        capabilities: ["semaphore"]
+      )
+    end
+
+    context 'existing resource' do
+      before do
+        get :show, params: {
+          id: subscription.id,
+        }
+      end
+
+      it "returns success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns the correct subscription" do
+        expect(json["subscription"]["id"]).to eq(subscription.id)
+        expect(json["subscription"]["uuid"]).to eq(subscription.uuid)
+        expect(json["subscription"]["url"]).to eq(subscription.url)
+        expect(json["subscription"]["capabilities"].sort).
+          to eq(subscription.capabilities.sort)
+      end
+    end
+
+    context 'when subscription is not found' do
+      before do
+        get :show, params: {
+          id: -1,
+        }
+      end
+
+      it "returns 404 error" do
+        expect(response).to have_http_status(:not_found)
+        expect(json).to have_key("error")
+        expect(json["error"]).to eq("Subscription not found")
+      end
+    end
+  end
+
+  describe '#index' do
+    before do
+      Subscription.create!(
+        uuid: "AAA",
+        url: "http://endpoint.com",
+        capabilities: ["semaphore"]
+      )
+
+      Subscription.create!(
+        uuid: "AAA",
+        url: "http://endpoint.com",
+        capabilities: ["semaphore"]
+      )
+
+      Subscription.create!(
+        uuid: "BBB",
+        url: "http://endpoint.com",
+        capabilities: ["semaphore"]
+      )
+    end
+
+    context "without filter" do
+      before { get :index }
+
+      it "returns success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns all subscriptions" do
+        expect(json["subscriptions"].count).to be(3)
+      end
+    end
+
+    context "with filter" do
+      it "returns only subscriptions to resource AAA" do
+        get :index, params: {uuid: "AAA"}
+        expect(response).to have_http_status(:success)
+        expect(json["subscriptions"].count).to be(2)
+      end
+
+      it "returns only subscriptions to resource BBB" do
+        get :index, params: {uuid: "BBB"}
+        expect(response).to have_http_status(:success)
+        expect(json["subscriptions"].count).to be(1)
+      end
+
+      it "returns an empty array of subscriptions when query is CCC" do
+        get :index, params: {uuid: "CCC"}
+        expect(response).to have_http_status(:success)
+        expect(json["subscriptions"].count).to be(0)
+      end
+    end
+  end
 end

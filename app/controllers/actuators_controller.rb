@@ -1,5 +1,20 @@
 class ActuatorsController < ApplicationController
-  before_action :set_subscription, only: [:update, :destroy]
+  before_action :set_subscription, only: [:update, :destroy, :show]
+
+  # GET /subscriptions?uuid=""
+  def index
+    @subscriptions = Subscription.all
+    if params["uuid"]
+      @subscriptions = @subscriptions.where(uuid: params["uuid"])
+    end
+
+    render json: {subscriptions: @subscriptions}, status: 200
+  end
+
+  # GET /subscriptions/:id
+  def show
+    render json: {subscription: @subscription}, status: 200
+  end
 
   # POST /subscriptions/
   def subscribe
@@ -34,7 +49,7 @@ class ActuatorsController < ApplicationController
   # DELETE /subscriptions/:id
   def destroy
     @subscription.destroy
-    render json: nil, head: :no_content, status: 204
+    render head: :no_content, status: 204
   end
 
   private

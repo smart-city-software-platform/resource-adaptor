@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'subscriptions/', to: "actuators#index"
+  get 'subscriptions/:id', to: "actuators#show"
   post 'subscriptions', to: "actuators#subscribe"
   put 'subscriptions/:id', to: "actuators#update"
   delete 'subscriptions/:id', to: "actuators#destroy"
