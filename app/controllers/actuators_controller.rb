@@ -26,7 +26,7 @@ class ActuatorsController < ApplicationController
     end
 
     subscription.save!
-    render json: subscription, status: 201
+    render json: {subscription: subscription}, status: 201
   end
 
   private

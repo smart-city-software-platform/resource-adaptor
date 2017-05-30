@@ -55,6 +55,18 @@ describe ActuatorsController do
         it "creates a subscription on database" do
           expect{ request }.to change(Subscription, :count).by(1)
         end
+
+        describe "json response" do
+          subject{ json["subscription"] }
+          before { request }
+
+          it { is_expected.not_to be_nil }
+          it { is_expected.to have_key("id") }
+          it { is_expected.to have_key("uuid") }
+          it { is_expected.to have_key("url") }
+          it { is_expected.to have_key("capabilities") }
+          it { is_expected.to have_key("active") }
+        end
       end
 
       context "when subscribe to invalid capabilities" do
