@@ -6,14 +6,14 @@ class ActuatorsController < ApplicationController
     url = subscription_params["url"]
     capabilities = subscription_params["capabilities"]
 
-    if url.nil? || uuid.nil?
-      render error_payload("'url' and 'uuid' are required parameters", 422)
+    if url.nil? || uuid.nil? || capabilities.blank?
+      render json: {error: "'url', 'uuid', and 'capabilities' are required parameters"}, status: 422
       return
     end
 
     response = Platform::ResourceManager.get_resource(uuid)
     if response.nil?
-      render error_payload("Resource Cataloguer service is unavailable", 503)
+      render json: {error: "Resource Cataloguer service is unavailable"},  status: 503
       return
     elsif response.code != 200
       render json: response.body, status: response.code
@@ -27,12 +27,8 @@ class ActuatorsController < ApplicationController
       return
     end
 
-    subscription = Subscription.new(subscription_params)
-    if subscription.save
-      render json: subscription, status: 200
-    else
-      render json: {error: "Could not create subscription"}, status: 422
-    end
+    subscription = Subscription.create(subscription_params)
+    render json: subscription, status: 201
   end
 
   private
