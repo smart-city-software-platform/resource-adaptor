@@ -1,4 +1,8 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  mount Sidekiq::Web => '/sidekiq'
+
   resources :components, except: [:new, :edit] do
     member do
       get 'collect/:capability', to: "components#collect_specific"

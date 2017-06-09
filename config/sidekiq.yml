@@ -7,4 +7,4 @@ production:
   :concurrency: 20
 :queues:
   - default
-  - [actuators, 2]
+  - [web_hook_caller, 2]
