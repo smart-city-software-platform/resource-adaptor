@@ -62,6 +62,56 @@ follow these steps:
 * Stop current container: ```./script/development stop```
 * Start the container: ```./script/development start```
 
+## Actuator Webhook
+
+The Actuator Webhook allows you to subscribe to actuation events
+on the platform. When one of these events occurs, Resource Adaptor
+will send a HTTP POST to the webhook's endpoint, a URL provided
+in the subscription.
+
+### Subscription
+
+To receive actuators command from the platform, one must subscribe
+informing a set of parameters. See the following example using curl command
+line tool:
+
+> curl -H "Content-Type: application/json" -X POST -d '@data.json' http://localhost:3002/subscriptions
+
+where the file data.json has the following content:
+```
+{
+  "subscription": {
+    "uuid": "0dbdae10-4156-4433-9291-5d261eb0d8eb",
+      "url": "http://myendpoint.com",
+      "capabilities": ["semaphore"]
+  }
+}
+```
+### Webhook Callback
+
+Each actuator command will generate webhook notifications for
+the correspondent subscriptions through the URL callback. Therefore,
+to receive such notifications a client must implement a HTTP server to handle
+the following request: **POST http://myendpoint.com**
+
+Check the following example with curl command line tool:
+
+> curl -H "Content-Type: application/json" -X POST -d '@payload.json' http://myendpoint.com
+
+where the file payload.json has the following content:
+```
+{
+  "action": "actuator_command",
+  "command": {
+    "uuid": "0dbdae10-4156-4433-9291-5d261eb0d8eb",
+    "url": "http://myendpoint.com",
+    "capability": "semaphore",
+    "created_at": "2017-06-07T20:16:16.348Z",
+    "value": "10"
+  }
+}
+```
+
 ## Configuration
 
 ### Database
@@ -70,36 +120,3 @@ We use a relational database to store some important information about all compo
 
 By default, our [database config file](config/database.yml) use the adpater for postgresql.
 
-### Services links
-
-Basically, this app needs to know two external services:
-* [Resources Cataloguer](https://gitlab.com/smart-city-software-platform/resource-cataloguer)
-* [Data Collector](https://gitlab.com/smart-city-software-platform/data-collector)
-
-The app also needs to know what its URL in order to properly register in the Smart City Platform.
-
-To set the three required URL, edit the [services config file](config/services.yml).
-
-### Resource and Components
-
-In order to automatically populate the database with resource and components 
-data we recommend that you use the following method:
-
-* Create components data through seed files. See the
-[existing seed files](lib/seeds/) to understand hot to create your own script.
-After this, run the task to create components in database:
-    * To run all seed files: ```$ bundle exec rake component:seed```
-    * To run a specific seed file: ```$ bundle exec rake component:seed[my_file_name.rb]```
-
-You can also use alternative ways to populate the database with your
-informantion. You could add new fields or table by adding new migrations 
-or create your own scripts to populate the database, for instance.
-
-### Data collection
-
-We create a thread to perform data collection by each of existing components in database. 
-To properly start data collection, the following steps must be performed:
-
-* Running rails server: The data collection starts when you make the first a request to Resource Adaptor's API
-* Running rails console: You must start data collection by yourself on console with ```$ ComponentsManager.instance.start_all```
-* **Deprecated** - Use the collect data script manager: Run on project root ```$ rails runner scripts/collect.rb```
