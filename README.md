@@ -87,6 +87,23 @@ where the file data.json has the following content:
   }
 }
 ```
+
+the response will be:
+```
+{
+  "subscription": {
+    "url": "http://myendpoint.com",
+    "updated_at": "2017-06-09T17:25:04.121Z",
+    "uuid": "0dbdae10-4156-4433-9291-5d261eb0d8eb",
+    "active": true,
+    "created_at": "2017-06-09T17:25:04.121Z",
+    "id": 12,
+    "capabilities": [
+      "semaphore"
+    ]
+  }
+}
+```
 ### Webhook Callback
 
 Each actuator command will generate webhook notifications for
@@ -107,7 +124,7 @@ where the file payload.json has the following content:
     "url": "http://myendpoint.com",
     "capability": "semaphore",
     "created_at": "2017-06-07T20:16:16.348Z",
-    "value": "10"
+    "value": "red"
   }
 }
 ```
