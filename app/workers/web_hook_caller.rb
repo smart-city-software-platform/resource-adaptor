@@ -18,7 +18,8 @@ class WebHookCaller
     begin
       response = RestClient.post(
         url,
-        {action: 'actuator_command', command: command}
+        {action: 'actuator_command', command: command}.to_json,
+        {content_type: :json, accept: :json}
       )
 
       WORKERS_LOGGER.info("WebHookCaller::CommandSend - notification_id: #{id}, url: #{url}")

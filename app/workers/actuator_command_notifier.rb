@@ -25,13 +25,13 @@ class ActuatorCommandNotifier
           uuid = json['uuid']
           capability = json['capability']
           if uuid && capability
-            subscriptions = Subscription.where(uuid: uuid, active: true)
+            subscriptions = ::Subscription.where(uuid: uuid, active: true)
             subscriptions.each do |subscription|
               if subscription.capabilities.include? capability
-                WebHookCaller.perform_async(subscription.id, subscription.url, body)
+                ::WebHookCaller.perform_async(subscription.id, subscription.url, body)
+                WORKERS_LOGGER.info("AcutatorCommandNotifier::CommandReceived - #{json}")
               end
             end
-            WORKERS_LOGGER.info("AcutatorCommandNotifier::CommandReceived - #{json}")
           else
             raise "UUID and Capability not provided"
           end
