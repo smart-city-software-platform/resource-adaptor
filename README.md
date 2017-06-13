@@ -129,6 +129,11 @@ where the file payload.json has the following content:
 }
 ```
 
+Note that if your server returns a success status code, such as 200 or 201,
+we will update the command status to **processed**. Otherwise, we will 
+set the status to **rejected**.
+
+
 ## Configuration
 
 ### Database
