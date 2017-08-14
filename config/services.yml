@@ -1,6 +1,9 @@
 ---
 
 services:
+  self: <%= ENV['SELF_HOST'] %>
   catalog: <%= ENV['CATALOGUER_HOST'] %>
   resource: <%= ENV['ADAPTOR_HOST'] %>
   rabbitmq: <%= ENV['RABBITMQ_HOST'] %>
+  kong: <%= ENV['KONG_HOST'] %>
+
