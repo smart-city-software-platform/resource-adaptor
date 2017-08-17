@@ -5,3 +5,4 @@ services:
   colector: "data-collector:3000"
   resource: "resource-adaptor:3000"
   rabbitmq: "rabbitmq"
+  kong: "kong:8001"

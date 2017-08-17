@@ -36,6 +36,8 @@ services:
       CATALOGUER_HOST: 'resource-cataloguer:3000'
       ADAPTOR_HOST: 'resource-adaptor:3000'
       RABBITMQ_HOST: 'rabbitmq'
+      KONG_HOST: 'kong:8001'
+      SELF_HOST: 'resource-adaptor:3000'
 
   sidekiq:
     container_name: resource-adaptor-sidekiq
@@ -55,6 +57,8 @@ services:
       ADAPTOR_HOST: 'resource-adaptor:3000'
       RABBITMQ_HOST: 'rabbitmq'
       RAILS_ENV: 'development'
+      KONG_HOST: 'kong:8001'
+      SELF_HOST: 'resource-adaptor:3000'
 
 networks:
   default:
