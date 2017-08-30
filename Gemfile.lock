@@ -51,6 +51,7 @@ GEM
     domain_name (0.5.20161129)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
+    excon (0.49.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     http-cookie (1.0.3)
@@ -59,6 +60,8 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
     json (2.0.2)
+    kong (0.3.0)
+      excon (~> 0.49.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
@@ -167,6 +170,7 @@ DEPENDENCIES
   bunny (~> 2.5.1)
   colorize
   httparty
+  kong
   pg
   puma
   rails (= 5.0.0)
@@ -180,4 +184,4 @@ DEPENDENCIES
   sqlite3
 
 BUNDLED WITH
-   1.13.6
+   1.15.1

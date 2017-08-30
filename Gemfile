@@ -6,6 +6,7 @@ gem 'spring', :group => :development
 
 gem 'puma'
 
+gem 'kong'
 gem 'httparty'
 gem 'rest-client'
 
