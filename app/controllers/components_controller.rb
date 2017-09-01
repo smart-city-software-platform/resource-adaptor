@@ -44,8 +44,8 @@ class ComponentsController < ApplicationController
   # POST /components/:uuid/data/temperature
   def data_specific
     data_manager = DataManager.instance
-    data_params.each do |data|
-      data_manager.publish_resource_data(@uuid, @capability, data)
+    data_params.each do |value|
+      data_manager.publish_resource_data(@uuid, @capability, value.to_unsafe_h)
     end
     render status: 201, json: {}
   end

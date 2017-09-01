@@ -125,7 +125,8 @@ describe ComponentsController do
         json = {
           id: 10,
           data: {
-            environment_monitoring: {temperature: '20.2', humidity: 67, timestamp: '20/08/2016T10:27:40'},
+            environment_monitoring: {temperature: '20.2', timestamp: '20/08/2016T10:27:40'},
+            humidity: {value: '67', timestamp: '30/10/2016T06:32:03'}
           }
         }
 
