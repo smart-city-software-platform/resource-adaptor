@@ -4,18 +4,18 @@ require "spec_helper"
 describe ComponentsController do
   subject {response}
   let(:json) {JSON.parse(response.body)}
-    describe '#create' do
-      context 'correct requests' do
-        before do
-          stub_const("Platform::ResourceManager", double)
-          cataloguer_response_body = {
-            "data" => {
-              "description" => "A simple resource in São Paulo",
-              "status" => "stopped",
-              "country" => "Brazil",
-              "state" => "São Paulo",
-              "uri" => "example2.com",
-              "postal_code" => "05508-090",
+  describe '#create' do
+    context 'correct requests' do
+      before do
+        stub_const("Platform::ResourceManager", double)
+        cataloguer_response_body = {
+          "data" => {
+            "description" => "A simple resource in São Paulo",
+            "status" => "stopped",
+            "country" => "Brazil",
+            "state" => "São Paulo",
+            "uri" => "example2.com",
+            "postal_code" => "05508-090",
             "id" => 677,
             "lon" => -46.731386,
             "updated_at" => "2016-10-28T13:25:16.069Z",
@@ -23,7 +23,7 @@ describe ComponentsController do
             "city" => "São Paulo",
             "neighborhood" => "Butantã",
             "capabilities" => [
-              "temperature"
+              "environment_monitoring"
             ],
             "collect_interval" => 5,
             "created_at" => "2016-10-28T13:25:16.069Z",
@@ -41,7 +41,7 @@ describe ComponentsController do
             lon: -46.731386,
             status: "stopped",
             description: "A simple resource in São Paulo",
-            capabilities: ["temperature"]
+            capabilities: ["environment_monitoring"]
           }
         }
       end
@@ -60,7 +60,7 @@ describe ComponentsController do
             lon: -46.731386,
             status: "stopped",
             description: "A simple resource in São Paulo",
-            capabilities: ["temperature"]
+            capabilities: ["environment_monitoring"]
           }
         }
       end
@@ -74,7 +74,7 @@ describe ComponentsController do
 
   describe "#data_specific" do
     context 'post one observed data to existing capability' do
-      let(:capability){'temperature'}
+      let(:capability){'environment_monitoring'}
       before do
         allow_any_instance_of(DataManager).to receive(:setup).and_return(true)
         allow(DataManager.instance).to receive(:publish_resource_data) {true}
@@ -82,7 +82,7 @@ describe ComponentsController do
         process :data_specific, method: :post, params: {
           id: 10,
           capability: capability,
-          data: [{value: '12.8', timestamp: '20/08/2016T10:27:40'}]
+          data: [{temperature: '12.8', timestamp: '20/08/2016T10:27:40'}]
         }
       end
 
@@ -100,11 +100,8 @@ describe ComponentsController do
         json = {
           id: 10,
           data: {
-            temperature: [
-              {value: '20.2', timestamp: '20/08/2016T10:27:40'}
-            ],
-            humidity: [
-              {value: '67', timestamp: '30/10/2016T06:32:03'}
+            environment_monitoring: [
+              {temperature: '20.2', humidity: '67', timestamp: '20/08/2016T10:27:40'},
             ]
           }
         }
@@ -119,6 +116,23 @@ describe ComponentsController do
 
       it 'should update component humidity observation' do
       end
+    end
+
+    context 'invalid input' do
+      before do
+        allow_any_instance_of(DataManager).to receive(:setup).and_return(true)
+        allow(DataManager.instance).to receive(:publish_resource_data) {true}
+        json = {
+          id: 10,
+          data: {
+            environment_monitoring: {temperature: '20.2', humidity: 67, timestamp: '20/08/2016T10:27:40'},
+          }
+        }
+
+        process :data, method: :post, params: json
+      end
+
+      it { is_expected.to have_http_status(400) }
     end
   end
 end
