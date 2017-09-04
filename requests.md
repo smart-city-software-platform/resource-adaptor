@@ -3,15 +3,18 @@
 ## Basic City Resource management
 
 * Create resource
-> curl -H "Content-Type: application/json" -X POST -d '{"data":{"lat":-23.559616,"lon":-46.731386,"description":"A simple resource in São Paulo","capabilities":["temperature"], "status":"active"}}' http://localhost:3002/components | json_pp
+> curl -H "Content-Type: application/json" -X POST -d '{"data":{"lat":-23.559616,"lon":-46.731386,"description":"An equipped with various sensors in São Paulo","capabilities":["environment_monitoring"], "status":"active"}}' http://localhost:3002/components | json_pp
 
 * Update resource
-> curl -H "Content-Type: application/json" -X PUT -d '{"data":{"lat":-23.5521216,"lon":-46.932386,"description":"More complex resource","capabilities":["temperature", "humidity", "uv", "pollution"], "status":"active"}}' http://localhost:3002/components/**:uuid**/ | json_pp
+> curl -H "Content-Type: application/json" -X PUT -d '{"data":{"lat":-23.5521216,"lon":-46.932386,"description":"More complex resource","capabilities":["environment_monitoring","bus_monitoring"], "status":"active"}}' http://localhost:3002/components/**:uuid**/ | json_pp
 
 ## Post context data from city resources
 
 * Post data
-> curl -H "Content-Type: application/json" -X POST -d '{"data":{"temperature":[{"value":"12.8","timestamp":"20/08/2016T10:27:40"}], "humidity":[{"value":"100", "timestamp":"02/12/2016T10:27:40"}]}}' http://localhost:3002/components/**:uuid**/data
+> curl -H "Content-Type: application/json" -X POST -d '{"data":{"environment_monitoring":[{"temperature":"12.8", "humidity": "100", "timestamp":"20/08/2016T10:27:40"}]}}' http://localhost:3002/components/**:uuid**/data
+
+* Post data for several capabilities at once
+> curl -H "Content-Type: application/json" -X POST -d '{"data":{"environment_monitoring":[{"temperature":"12.8", "humidity": "100", "timestamp":"20/08/2016T10:27:40"}], "bus_monitoring":[{"location":{"lat":"-23.4", "lon": "-46.2123"}, "speed": "60", "timestamp":"20/08/2016T10:27:40"}]}}' http://localhost:3002/components/**:uuid**/data
 
 ## Subscribe to receive actuation commands
 
