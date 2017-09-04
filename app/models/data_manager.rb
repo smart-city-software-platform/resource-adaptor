@@ -13,6 +13,9 @@ class DataManager
   def publish_resource_data(uuid, capability, value)
     message = JSON(value)
     key = uuid + '.' + capability
+    if value.has_key?("location")
+      key = key + '.location'
+    end
     topic = @channel.topic('data_stream')
     topic.publish(message, routing_key: key)
   end
