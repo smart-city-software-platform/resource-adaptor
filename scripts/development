@@ -67,11 +67,23 @@ if [ "$1" = "exec" ]; then
 
   shift
   command="sudo docker-compose exec"
- 
+
   for word in $@; do
     command="$command $word"
   done
 
   $command
   verify "Cannot execute command into the container. Please verify logs"
+fi
+
+if [ "$1" = "test" ]; then
+  echo "${CYAN}"
+  echo "Executing tests into the container's work directory"
+  echo "${NC}"
+
+  shift
+  command="sudo docker-compose exec $PROJECT_NAME rspec"
+
+  $command
+
 fi
