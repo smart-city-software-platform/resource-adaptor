@@ -8,6 +8,9 @@
 * Update resource
 > curl -H "Content-Type: application/json" -X PUT -d '{"data":{"lat":-23.5521216,"lon":-46.932386,"description":"More complex resource","capabilities":["environment_monitoring","bus_monitoring"], "status":"active"}}' http://localhost:3002/components/**:uuid**/ | json_pp
 
+* Create a Health Facility resource
+> curl -H "Content-Type: application/json" -X POST -d '{"data":{"lat":-23.565009,"lon":-46.740647,"description":"Hospital Universitário da Universidade de São Paulo","capabilities":["medical_procedure"], "status":"active"}}' http://localhost:3002/components | json_pp
+
 ## Post context data from city resources
 
 * Post data
@@ -15,6 +18,9 @@
 
 * Post data for several capabilities at once
 > curl -H "Content-Type: application/json" -X POST -d '{"data":{"environment_monitoring":[{"temperature":"12.8", "humidity": "100", "timestamp":"20/08/2016T10:27:40"}], "bus_monitoring":[{"location":{"lat":"-23.4", "lon": "-46.2123"}, "speed": "60", "timestamp":"20/08/2016T10:27:40"}]}}' http://localhost:3002/components/**:uuid**/data
+
+* Post data for complex data
+> curl -H "Content-Type: application/json" -X POST -d '{"data":{"medical_procedure":[{"specialty":"cardiology", "patient": {"location":{"lat": -23.584188, "lon": -46.686102}, "name":"Mr. Crowley", "age": 45, "genre": "male"}, "timestamp":"20/08/2016T10:27:40"}]}}' http://localhost:3002/components/**:uuid**/data
 
 ## Subscribe to receive actuation commands
 
