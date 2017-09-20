@@ -83,7 +83,5 @@ if [ "$1" = "test" ]; then
 
   shift
   command="sudo docker-compose exec $PROJECT_NAME rspec"
-
   $command
-
 fi
