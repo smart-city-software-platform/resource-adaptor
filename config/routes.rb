@@ -11,6 +11,14 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :resources, except: [:new, :edit], controller: :components do
+    member do
+      post 'data/:capability', to: "components#data_specific"
+      post 'data', to: "components#data"
+      put 'actuate/:capability', to: "components#actuate"
+    end
+  end
+
   get 'subscriptions/', to: "actuators#index"
   get 'subscriptions/:id', to: "actuators#show"
   post 'subscriptions', to: "actuators#subscribe"
