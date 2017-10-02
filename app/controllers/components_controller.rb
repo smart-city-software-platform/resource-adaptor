@@ -53,7 +53,7 @@ class ComponentsController < ApplicationController
   private
 
     def resource_params
-      params.require(:data).permit(:description, :lat, :lon, :status, :collect_interval, :uri, capabilities: [])
+      params.require(:data).permit(:description, :lat, :lon, :status, :uuid, :collect_interval, :uri, capabilities: [])
     end
 
     def data_params
