@@ -8,6 +8,14 @@ class DataManager
 
   def initialize
     self.setup
+    ObjectSpace.define_finalizer( self, self.class.finalize() )
+  end
+
+  def self.finalize
+    proc do
+      @channel.close
+      @conn.close
+    end
   end
 
   def publish_resource_data(uuid, capability, value)
