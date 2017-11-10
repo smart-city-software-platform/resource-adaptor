@@ -19,6 +19,7 @@ class DataManager
   end
 
   def publish_resource_data(uuid, capability, value)
+    self.setup if @conn.closed?
     message = JSON(value)
     key = uuid + '.' + capability
     if value.has_key?("location")
@@ -29,6 +30,7 @@ class DataManager
   end
 
   def publish_actuation_command_status(uuid, capability, command_id, status)
+    self.setup if @conn.closed?
     message = JSON({command_id: command_id, status: status})
     key = uuid + '.' + capability
     topic = @channel.topic('resource.actuate.status')
